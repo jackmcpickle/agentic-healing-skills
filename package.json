@@ -20,6 +20,7 @@
     "tailwindcss": "^4.3.0",
     "wrangler": "^4.95.0"
   },
+  "packageManager": "pnpm@11.4.0",
   "overrides": {
     "vite": "^7"
   }
