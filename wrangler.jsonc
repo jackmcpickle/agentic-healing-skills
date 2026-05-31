@@ -3,13 +3,20 @@
     "compatibility_flags": [
         "global_fetch_strictly_public"
     ],
+    "account_id": "16a04bbc76ee5eccbcc1d6c39bc9a797",
     "workers_dev": true,
-    "name": "agentic-healing-desk",
+    "name": "agentic-healing-skills",
     "main": "@astrojs/cloudflare/entrypoints/server",
     "assets": {
         "directory": "./dist",
         "binding": "ASSETS"
     },
+    "kv_namespaces": [
+        {
+            "binding": "SESSION",
+            "id": "a173b7bc3dc8415dbdb18ea73e97cc13"
+        }
+    ],
     "routes": [
         {
             "pattern": "agentic-healing.mcpickle.com.au",
