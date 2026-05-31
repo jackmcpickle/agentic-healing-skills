@@ -6,6 +6,7 @@ import Menu from '../components/Menu.astro';
 import Heading from '../components/Heading.astro';
 import SubHeading from '../components/SubHeading.astro';
 import SubText from '../components/SubText.astro';
+import Quote from '../components/Quote.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Waves from '../components/icons/Waves.astro';
 import Compass from '../components/icons/Compass.astro';
@@ -17,7 +18,10 @@ import { MENU_ITEMS } from '../constants';
 
 <Layout title='Agentic Healing in Production'>
     <Slide>
-        <Heading as='h1' size='title'>
+        <Heading
+            as='h1'
+            size='title'
+        >
             Agentic <span class='text-primary'>Healing</span>
             <br />in Production <span class='text-primary'>🩺</span>
         </Heading>
@@ -72,16 +76,14 @@ import { MENU_ITEMS } from '../constants';
         <div class='flex flex-col items-start gap-8 text-left'>
             <DumbZone />
             <Eyebrow>The dumb zone</Eyebrow>
-            <blockquote
-                class='max-w-4xl text-display-sm text-balance text-canvas-soft'
-            >
+            <Quote>
                 “As context usage grows, model quality degrades — empirically,
                 this often begins around <span class='text-primary'>~40%</span> of
                 the context window.”
-            </blockquote>
-            <p class='text-lg text-mute'>
-                — Dex Horthy &nbsp;·&nbsp; Repo prep keeps the agent out of it.
-            </p>
+                <Fragment slot='cite'>
+                    — Dex Horthy &nbsp;·&nbsp; Repo prep keeps the agent out of it.
+                </Fragment>
+            </Quote>
         </div>
     </Slide>
 
@@ -89,7 +91,9 @@ import { MENU_ITEMS } from '../constants';
     <Slide section={MENU_ITEMS[0].name}>
         <div class='flex flex-col items-start gap-8 text-left'>
             <Warning />
-            <Heading>Warnings <span class='text-primary'>=</span> errors</Heading>
+            <Heading
+                >Warnings <span class='text-primary'>=</span> errors</Heading
+            >
             <SubHeading>
                 A noisy build teaches the agent that warnings don’t matter.
             </SubHeading>

@@ -1,0 +1,26 @@
+---
+import SubText from './SubText.astro';
+
+interface Props {
+    class?: string;
+}
+const { class: className } = Astro.props;
+
+const hasCite = Astro.slots.has('cite');
+---
+
+<blockquote
+    class:list={[
+        'max-w-4xl text-display-sm text-balance text-canvas-soft',
+        className,
+    ]}
+>
+    <slot />
+</blockquote>
+{
+    hasCite && (
+        <SubText>
+            <slot name='cite' />
+        </SubText>
+    )
+}
