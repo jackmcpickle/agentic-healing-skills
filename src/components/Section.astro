@@ -1,0 +1,9 @@
+---
+/** Reorder-proof section anchor. id sits at section top = first slide inside. */
+interface Props {
+    id: string;
+}
+const { id } = Astro.props;
+---
+
+<div id={id}><slot /></div>

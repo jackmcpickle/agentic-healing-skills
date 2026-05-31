@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Slide from '../layouts/Slide.astro';
 import Menu from '../components/Menu.astro';
+import Section from '../components/Section.astro';
 import Heading from '../components/Heading.astro';
 import SubHeading from '../components/SubHeading.astro';
 import SubText from '../components/SubText.astro';
@@ -14,6 +15,9 @@ import DumbZone from '../components/icons/DumbZone.astro';
 import Warning from '../components/icons/Warning.astro';
 import teeth from '../assets/jacks-check-teeth.png';
 import { MENU_ITEMS } from '../constants';
+import { resetSlideIds } from '../lib/slideCounter';
+
+resetSlideIds(); // restart slide-N numbering at the top of each page render
 ---
 
 <Layout title='Agentic Healing in Production'>
@@ -33,73 +37,90 @@ import { MENU_ITEMS } from '../constants';
         <Menu active={0} />
     </Slide>
 
-    <!-- Slide 3 — Dentist story. No title; Jack narrates the ~60s story live. -->
-    <Slide>
-        <figure class='w-full'>
-            <Image
-                src={teeth}
-                alt=''
-                class='max-h-[80vh] w-full rounded-xl object-contain'
-            />
-        </figure>
-    </Slide>
+    <!-- Section 1 — Health Check. Anchor sits on the first slide inside; reorder freely. -->
+    <Section id={MENU_ITEMS[0].slug}>
+        <!-- Slide 3 — Dentist story. No title; Jack narrates the ~60s story live. -->
+        <Slide>
+            <figure class='w-full'>
+                <Image
+                    src={teeth}
+                    alt=''
+                    class='max-h-[80vh] w-full rounded-xl object-contain'
+                />
+            </figure>
+        </Slide>
 
-    <!-- Slide 4 — Health Check / Flow state. -->
-    <Slide section={MENU_ITEMS[0].name}>
-        <div class='flex flex-col items-start gap-8 text-left'>
-            <Waves />
-            <Heading>Flow <span class='text-primary'>state</span></Heading>
-            <SubHeading>
-                Change the repo so the agent will flow through the code well.
-            </SubHeading>
-        </div>
-    </Slide>
+        <!-- Slide 4 — Health Check / Flow state. -->
+        <Slide section={MENU_ITEMS[0].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Waves />
+                <Heading>Flow <span class='text-primary'>state</span></Heading>
+                <SubHeading>
+                    Change the repo so the agent will flow through the code
+                    well.
+                </SubHeading>
+            </div>
+        </Slide>
 
-    <!-- Slide 5 — Health Check / AGENTS.md. -->
-    <Slide section={MENU_ITEMS[0].name}>
-        <div class='flex flex-col items-start gap-8 text-left'>
-            <Compass />
-            <Heading>AGENTS<span class='text-primary'>.md</span></Heading>
-            <SubHeading>
-                Tell the agent how the code is organised — and how to navigate
-                it.
-            </SubHeading>
-            <SubHeading variant='muted'>
-                Rebuild it from scratch every few weeks, based on what the agent
-                kept getting wrong.
-            </SubHeading>
-        </div>
-    </Slide>
+        <!-- Slide 5 — Health Check / Analyse previous sessions. -->
+        <Slide section={MENU_ITEMS[0].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Compass />
+                <Heading
+                    >Read the <span class='text-primary'>sessions</span
+                    ></Heading
+                >
+                <SubHeading>
+                    Where did it go off track — then find its way back?
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Show me recommendations to help the agent reach its goal
+                    faster.
+                </SubHeading>
+            </div>
+        </Slide>
 
-    <!-- Slide 6 — Health Check / The dumb zone (Dex Horthy). -->
-    <Slide section={MENU_ITEMS[0].name}>
-        <div class='flex flex-col items-start gap-8 text-left'>
-            <DumbZone />
-            <Eyebrow>The dumb zone</Eyebrow>
-            <Quote>
-                “As context usage grows, model quality degrades — empirically,
-                this often begins around <span class='text-primary'>~40%</span> of
-                the context window.”
-                <Fragment slot='cite'>
-                    — Dex Horthy &nbsp;·&nbsp; Repo prep keeps the agent out of it.
-                </Fragment>
-            </Quote>
-        </div>
-    </Slide>
+        <!-- Slide 6 — Health Check / The dumb zone (Dex Horthy). -->
+        <Slide section={MENU_ITEMS[0].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <DumbZone />
+                <Eyebrow>The dumb zone</Eyebrow>
+                <Quote>
+                    “As context usage grows, model quality degrades —
+                    empirically, this often begins around <span
+                        class='text-primary'>~40%</span
+                    > of the context window.”
+                    <Fragment slot='cite'>
+                        — Dex Horthy &nbsp;·&nbsp; Repo prep keeps the agent out
+                        of it.
+                    </Fragment>
+                </Quote>
+            </div>
+        </Slide>
 
-    <!-- Slide 7 — Health Check / Warnings = errors. -->
-    <Slide section={MENU_ITEMS[0].name}>
-        <div class='flex flex-col items-start gap-8 text-left'>
-            <Warning />
-            <Heading
-                >Warnings <span class='text-primary'>=</span> errors</Heading
-            >
-            <SubHeading>
-                A noisy build teaches the agent that warnings don’t matter.
-            </SubHeading>
-            <SubHeading variant='muted'>
-                -Werror · noImplicitAny · lint on max · fail CI on any warning.
-            </SubHeading>
-        </div>
-    </Slide>
+        <!-- Slide 7 — Health Check / Warnings = errors. -->
+        <Slide section={MENU_ITEMS[0].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Warning />
+                <Heading
+                    >Warnings <span class='text-primary'>=</span> errors</Heading
+                >
+                <SubHeading>
+                    A noisy build teaches the agent that warnings don’t matter.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    -Werror · noImplicitAny · lint on max · fail CI on any
+                    warning.
+                </SubHeading>
+            </div>
+        </Slide>
+    </Section>
+
+    <!-- Section 2 — In the Field. Divider Menu is the section start. -->
+    <Section id={MENU_ITEMS[1].slug}>
+        <!-- Slide 8 — Section divider → In the Field. -->
+        <Slide>
+            <Menu active={1} />
+        </Slide>
+    </Section>
 </Layout>

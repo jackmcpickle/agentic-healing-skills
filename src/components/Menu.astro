@@ -20,32 +20,36 @@ import Eyebrow from './Eyebrow.astro';
                 const isActive = active === i;
                 return (
                     <li class='contents'>
-                        <span
-                            class:list={[
-                                'text-display-sm font-black',
-                                isActive ? 'text-primary' : 'text-transparent',
-                            ]}
-                        >
-                            ▸
-                        </span>
-                        <span
-                            class:list={[
-                                'text-display-sm font-semibold tabular-nums',
-                                isActive ? 'text-primary/60' : 'text-mute',
-                            ]}
-                        >
-                            {item.n}
-                        </span>
-                        <span
-                            class:list={[
-                                'text-display-sm font-black tracking-tight md:text-display-md',
-                                isActive
-                                    ? 'text-primary'
-                                    : 'text-canvas-soft/85',
-                            ]}
-                        >
-                            {item.name}
-                        </span>
+                        <a href={`#${item.slug}`} class='contents'>
+                            <span
+                                class:list={[
+                                    'text-display-sm font-black',
+                                    isActive
+                                        ? 'text-primary'
+                                        : 'text-transparent',
+                                ]}
+                            >
+                                ▸
+                            </span>
+                            <span
+                                class:list={[
+                                    'text-display-sm font-semibold tabular-nums',
+                                    isActive ? 'text-primary/60' : 'text-mute',
+                                ]}
+                            >
+                                {item.n}
+                            </span>
+                            <span
+                                class:list={[
+                                    'text-display-sm font-black tracking-tight transition-colors hover:text-primary md:text-display-md',
+                                    isActive
+                                        ? 'text-primary'
+                                        : 'text-canvas-soft/85',
+                                ]}
+                            >
+                                {item.name}
+                            </span>
+                        </a>
                     </li>
                 );
             })
