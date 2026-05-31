@@ -17,8 +17,8 @@ const { title } = Astro.props;
       @import '../styles/global.css';
     </style>
   </head>
-  <body class="bg-ink font-sans text-canvas-soft">
-    <main class="h-screen w-screen overflow-hidden">
+  <body class="h-screen snap-y snap-mandatory overflow-y-scroll scroll-smooth bg-ink font-sans text-canvas-soft">
+    <main class="w-full">
       <slot />
     </main>
   </body>

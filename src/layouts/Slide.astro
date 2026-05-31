@@ -1,5 +1,22 @@
-<section class='flex h-full w-full flex-col items-center justify-center gap-8 px-12'>
-    <div class='max-w-6xl'>
+---
+interface Props {
+    /** Section name shown in the slide footer (e.g. "Health Check"). Omit for title/intro slides. */
+    section?: string;
+}
+const { section } = Astro.props;
+---
+
+<section
+    class='relative flex min-h-screen w-full snap-start flex-col items-center justify-center gap-8 border-b border-white/5'
+>
+    <div class='w-full max-w-6xl px-12 py-20'>
         <slot />
     </div>
+    {
+        section && (
+            <footer class='absolute bottom-8 left-12 text-sm font-semibold uppercase tracking-[0.35em] text-mute'>
+                {section}
+            </footer>
+        )
+    }
 </section>

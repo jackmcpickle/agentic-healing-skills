@@ -1,0 +1,19 @@
+---
+interface Props {
+    class?: string;
+}
+const { class: className = 'h-16 w-16 text-primary' } = Astro.props;
+---
+
+<svg
+    class={className}
+    viewBox='0 0 48 48'
+    fill='none'
+    stroke='currentColor'
+    stroke-width='3'
+    stroke-linecap='round'
+    stroke-linejoin='round'
+    aria-hidden='true'
+>
+    <slot />
+</svg>

@@ -1,0 +1,54 @@
+---
+interface Props {
+    /** 0 = agenda (all items lit green, no pointer); 1..4 = that stage lit green with the pointer */
+    active?: number;
+}
+const { active = 0 } = Astro.props;
+
+import { MENU_ITEMS } from '../constants';
+import Eyebrow from './Eyebrow.astro';
+---
+
+<div class='flex w-full flex-col gap-10'>
+    <Eyebrow>// select stage</Eyebrow>
+
+    <ul
+        class='grid grid-cols-[1rem_1.75rem_auto] items-baseline gap-x-7 gap-y-5'
+    >
+        {
+            MENU_ITEMS.map((item, i) => {
+                const isActive = active === i;
+                return (
+                    <li class='contents'>
+                        <span
+                            class:list={[
+                                'text-display-sm font-black',
+                                isActive ? 'text-primary' : 'text-transparent',
+                            ]}
+                        >
+                            ▸
+                        </span>
+                        <span
+                            class:list={[
+                                'text-display-sm font-semibold tabular-nums',
+                                isActive ? 'text-primary/60' : 'text-mute',
+                            ]}
+                        >
+                            {item.n}
+                        </span>
+                        <span
+                            class:list={[
+                                'text-display-sm font-black tracking-tight md:text-display-md',
+                                isActive
+                                    ? 'text-primary'
+                                    : 'text-canvas-soft/85',
+                            ]}
+                        >
+                            {item.name}
+                        </span>
+                    </li>
+                );
+            })
+        }
+    </ul>
+</div>

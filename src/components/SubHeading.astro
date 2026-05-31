@@ -1,0 +1,16 @@
+---
+interface Props {
+    variant?: 'lead' | 'muted';
+    class?: string;
+}
+const { variant = 'lead', class: className } = Astro.props;
+
+const variants = {
+    lead: 'max-w-3xl text-display-sm text-balance text-canvas-soft/80',
+    muted: 'max-w-3xl text-lg text-balance text-mute',
+};
+---
+
+<p class:list={[variants[variant], className]}>
+    <slot />
+</p>

@@ -1,0 +1,23 @@
+---
+interface Props {
+    as?: 'h1' | 'h2';
+    size?: 'title' | 'section';
+    class?: string;
+}
+const { as: Tag = 'h2', size = 'section', class: className } = Astro.props;
+
+const sizes = {
+    title: 'text-display-xl md:text-display-xxl lg:text-display-mega',
+    section: 'text-display-lg md:text-display-xl',
+};
+---
+
+<Tag
+    class:list={[
+        'text-balance font-black tracking-tight text-canvas-soft',
+        sizes[size],
+        className,
+    ]}
+>
+    <slot />
+</Tag>
