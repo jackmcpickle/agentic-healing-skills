@@ -6,8 +6,10 @@ interface Props {
     section?: string;
     /** Override the auto-generated anchor id. */
     id?: string;
+    /** Mark as work-in-progress — shows a DRAFT badge top-right. */
+    draft?: boolean;
 }
-const { section, id } = Astro.props;
+const { section, id, draft = false } = Astro.props;
 const slideId = id ?? nextSlideId();
 ---
 
@@ -15,6 +17,13 @@ const slideId = id ?? nextSlideId();
     id={slideId}
     class='relative flex min-h-screen w-full snap-start flex-col items-center justify-center gap-8 border-b border-white/5'
 >
+    {
+        draft && (
+            <span class='absolute right-12 top-8 rounded-pill bg-warning px-6 py-2.5 text-display-sm font-black uppercase tracking-[0.2em] text-warning-content'>
+                Draft
+            </span>
+        )
+    }
     <div class='w-full max-w-6xl px-12 py-20'>
         <slot />
     </div>

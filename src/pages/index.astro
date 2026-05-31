@@ -11,6 +11,7 @@ import Quote from '../components/Quote.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Waves from '../components/icons/Waves.astro';
 import Compass from '../components/icons/Compass.astro';
+import Replay from '../components/icons/Replay.astro';
 import DumbZone from '../components/icons/DumbZone.astro';
 import Warning from '../components/icons/Warning.astro';
 import teeth from '../assets/jacks-check-teeth.png';
@@ -62,10 +63,26 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
             </div>
         </Slide>
 
+        <!-- Health Check / AGENTS.md. DRAFT — repo-prep headline tactic. -->
+        <Slide section={MENU_ITEMS[0].name} draft={true}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Compass />
+                <Heading>AGENTS<span class='text-primary'>.md</span></Heading>
+                <SubHeading>
+                    Tell the agent how the code is organised — and how to
+                    navigate it.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Rebuild it from scratch every few weeks, based on what the
+                    agent kept getting wrong.
+                </SubHeading>
+            </div>
+        </Slide>
+
         <!-- Slide 5 — Health Check / Analyse previous sessions. -->
         <Slide section={MENU_ITEMS[0].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
-                <Compass />
+                <Replay />
                 <Heading
                     >Read the <span class='text-primary'>sessions</span
                     ></Heading
