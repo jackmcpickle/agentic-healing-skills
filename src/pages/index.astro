@@ -1,17 +1,18 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import Slide from '../layouts/Slide.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title='Agentic Healing in Production'>
+    <Slide>
+        <h1
+            class='text-balance text-display-xl text-left font-black tracking-tight text-canvas-soft md:text-display-xxl lg:text-display-mega'
+        >
+            Agentic <span class='text-primary'>Healing</span>
+            <br />in Production <span class='text-primary'>🩺</span>
+        </h1>
+        <p class='text-base text-left tracking-wide text-mute md:text-lg'>
+            Jack McNicol &bull; Founding Engineer @ SuperIT
+        </p>
+    </Slide>
+</Layout>

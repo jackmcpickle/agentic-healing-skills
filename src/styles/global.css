@@ -1,0 +1,54 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Brand & accent */
+  --color-primary: #9fe870;
+  --color-primary-active: #cdffad;
+  --color-primary-neutral: #c5edab;
+  --color-primary-pale: #e2f6d5;
+
+  /* Surface */
+  --color-canvas: #ffffff;
+  --color-canvas-soft: #e8ebe6;
+
+  /* Text */
+  --color-ink: #0e0f0c;
+  --color-ink-deep: #163300;
+  --color-body: #454745;
+  --color-mute: #868685;
+
+  /* Semantic */
+  --color-positive: #2ead4b;
+  --color-positive-deep: #054d28;
+  --color-warning: #ffd11a;
+  --color-warning-deep: #b86700;
+  --color-warning-content: #4a3b1c;
+  --color-negative: #d03238;
+  --color-negative-deep: #a72027;
+  --color-negative-darkest: #a7000d;
+  --color-negative-bg: #320707;
+
+  /* Tertiary illustration accents */
+  --color-accent-orange: #ffc091;
+  --color-accent-cyan: #38c8ff;
+
+  /* Typography — Inter substitutes proprietary Wise Sans */
+  --font-display: 'Inter Variable', system-ui, sans-serif;
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+
+  /* Display scale (size / line-height) */
+  --text-display-mega: 126px;
+  --text-display-mega--line-height: 107.1px;
+  --text-display-xxl: 96px;
+  --text-display-xxl--line-height: 81.6px;
+  --text-display-xl: 64px;
+  --text-display-xl--line-height: 54.4px;
+  --text-display-md: 40px;
+  --text-display-md--line-height: 34px;
+  --text-display-sm: 32px;
+  --text-display-sm--line-height: 38.4px;
+
+  /* Radius */
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+}
