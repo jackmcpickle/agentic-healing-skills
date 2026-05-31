@@ -1,14 +1,29 @@
+# Agentic Healing in Production — Slide Design System
+
+This is the visual system for the **"Agentic Healing in Production"** slide deck (Jack McNicol, AI Engineer Melbourne, June 2026 — see [`README.md`](./README.md) and [`agentic-healing-talk-guide.md`](./agentic-healing-talk-guide.md)). The deck adapts the brand system below for a dark-stage conference context.
+
+## How this maps to the deck
+
+- **Dark-hero polarity by default.** Slides render as the `hero-band-dark` surface: ink canvas (`#0e0f0c`), light text (`canvas-soft`), brand green (`#9fe870`) as the single accent. Reads well from the back of a room and matches the deck's "operating on the patient" tone.
+- **Green is the accent, never the field.** Reserve `{colors.primary}` for the emphasised word (`Healing`), section accents, and the autonomy-ladder "act" rung. Never a green-on-green slide.
+- **One face — Inter (self-hosted).** Inter Variable substitutes the proprietary Display Sans: weight **900** for hero/section headlines, **600** for sub-displays and labels, **400** for body. Mapped to `--font-display` / `--font-sans`.
+- **Display scale carries the four stages.** Title and section headers use `display-mega → xxl → xl` (responsive). Stage cards (Health Check, Bugs Reported, In the Field, Agentic Test) use `display-md`; body/notes use `body-*`.
+- **Semantic palette = autonomy ladder & status.** Positive/warning/negative families colour the read-only → suggest → act → auto-act progression and any incident/RCA state, so green stays the brand, not a "success" signal.
+- **Tokens live in `src/styles/global.css`.** The `@theme` block is the Tailwind 4 translation of the Colors / Typography / Shapes sections below — edit tokens there, not inline.
+
+> Everything below is the source brand reference. Use it as the token dictionary; the mapping above governs how the deck applies it.
+
 ## Overview
 
-Wise — the global money-transfer brand — wears its identity in a single signature pairing: a vivid lime-green `{colors.primary}` (`#9fe870`) used as the CTA pill and brand accent, set against a pale sage-tinted canvas `{colors.canvas-soft}` (`#e8ebe6`) that runs across the hero band, and a near-black ink `{colors.ink}` (`#0e0f0c`) with a hint of warmth from the brand's underlying olive cast. The brand reads more like a calm Scandinavian magazine than a bank — generous whitespace, large rounded cards, and an unusually heavy display sans set at weight 900 carrying every hero headline.
+The brand wears its identity in a single signature pairing: a vivid lime-green `{colors.primary}` (`#9fe870`) used as the CTA pill and brand accent, set against a pale sage-tinted canvas `{colors.canvas-soft}` (`#e8ebe6`) that runs across the hero band, and a near-black ink `{colors.ink}` (`#0e0f0c`) with a hint of warmth from the brand's underlying olive cast. The brand reads more like a calm Scandinavian magazine than a bank — generous whitespace, large rounded cards, and an unusually heavy display sans set at weight 900 carrying every hero headline.
 
-Display typography is the second decisive voice. The proprietary `Wise Sans` family carries hero displays at weight 900 in scales from 64 px up to 126 px on the largest hero. The brand pairs Wise Sans 900 with Inter at weight 600 for sub-displays — the contrast between the chunky proprietary face and Inter's neutrality creates a particular hierarchy: Wise Sans for the brand moment, Inter for everything else.
+Display typography is the second decisive voice. The proprietary `Display Sans` family carries hero displays at weight 900 in scales from 64 px up to 126 px on the largest hero. The brand pairs Display Sans 900 with Inter at weight 600 for sub-displays — the contrast between the chunky proprietary face and Inter's neutrality creates a particular hierarchy: Display Sans for the brand moment, Inter for everything else.
 
 Cards are universally pill-rounded — `{rounded.xl}` 24 px is the brand's signature card radius. Buttons take the same 24 px pill-rectangle shape. The brand never uses sharp corners on UI elements; the visual softness is part of the friendly fintech voice.
 
 **Key Characteristics:**
 - A single lime-green CTA accent `{colors.primary}` (`#9fe870`) — the brand's universal primary action color. No second accent.
-- Two-face display typography — Wise Sans (proprietary, weight 900, hero scale) + Inter (weight 600, sub-display scale). The contrast is the brand's typographic story.
+- Two-face display typography — Display Sans (proprietary, weight 900, hero scale) + Inter (weight 600, sub-display scale). The contrast is the brand's typographic story.
 - `{rounded.xl}` 24 px is the canonical card and button radius. Generous, friendly.
 - Sage-tinted canvas `{colors.canvas-soft}` (`#e8ebe6`) is the brand's hero surface; white `{colors.canvas}` is reserved for cards within the sage band.
 - A full semantic palette: positive green family, warning yellow family, negative red family — each documented with content / hover / active variants for in-product use.
@@ -17,10 +32,10 @@ Cards are universally pill-rounded — `{rounded.xl}` 24 px is the brand's signa
 ## Colors
 
 ### Brand & Accent
-- **Wise Green** (`{colors.primary}` — `#9fe870`): The brand's universal CTA color. Every primary button, every "Send money" pill, the brand's logo accent.
-- **Wise Green Hover** (`{colors.primary-active}` — `#cdffad`): The lighter green for active state.
-- **Wise Green Neutral** (`{colors.primary-neutral}` — `#c5edab`): A mid-saturation green used as a neutral active fill.
-- **Wise Green Pale** (`{colors.primary-pale}` — `#e2f6d5`): The lightest green for soft surface tints / badge backgrounds.
+- **Brand Green** (`{colors.primary}` — `#9fe870`): The brand's universal CTA color. Every primary button, every "Send money" pill, the brand's logo accent.
+- **Brand Green Hover** (`{colors.primary-active}` — `#cdffad`): The lighter green for active state.
+- **Brand Green Neutral** (`{colors.primary-neutral}` — `#c5edab`): A mid-saturation green used as a neutral active fill.
+- **Brand Green Pale** (`{colors.primary-pale}` — `#e2f6d5`): The lightest green for soft surface tints / badge backgrounds.
 
 ### Surface
 - **Canvas** (`{colors.canvas}` — `#ffffff`): Pure white for card interiors.
@@ -51,7 +66,7 @@ Cards are universally pill-rounded — `{rounded.xl}` 24 px is the brand's signa
 
 ### Font Family
 Two faces ladder the system:
-1. **Wise Sans** — proprietary geometric sans with an unusually heavy weight 900 used for all hero displays. The face is the brand's typographic signature. Always at weight 900, never lighter on the marketing surface.
+1. **Display Sans** — proprietary geometric sans with an unusually heavy weight 900 used for all hero displays. The face is the brand's typographic signature. Always at weight 900, never lighter on the marketing surface.
 2. **Inter** — used for sub-displays (weight 600), all body, and form labels. Loaded with `font-feature-settings: "calt"` for contextual alternates.
 
 ### Hierarchy
@@ -75,10 +90,10 @@ Two faces ladder the system:
 
 ### Principles
 - **Weight 900 for hero, weight 600 for everything else.** The brand's display ceiling is full-black weight; everything below is semibold.
-- **Wise Sans for the brand voice, Inter for utility.** Strict role separation.
+- **Display Sans for the brand voice, Inter for utility.** Strict role separation.
 
 ### Note on Font Substitutes
-Wise Sans is proprietary. Open-source substitutes:
+Display Sans is proprietary. Open-source substitutes:
 - **Display** — *Inter* at weight 900 or *Manrope* at weight 800 / 900 captures the geometric heaviness. *Geist* weight 800 is a passable second choice.
 - **Sub-display + body** — *Inter* is the brand's actual second face.
 
@@ -163,7 +178,7 @@ The brand uses surface contrast (`{colors.canvas-soft}` background vs `{colors.c
 - Background `{colors.primary-pale}`, text `{colors.ink}`, padding `{spacing.xl}`, shape `{rounded.xl}`.
 
 **`card-feature-dark`** — the polarity-flipped dark card with green text.
-- Background `{colors.ink}`, text `{colors.primary}` (Wise green!), padding `{spacing.xl}`, shape `{rounded.xl}`. Used for promotional moments.
+- Background `{colors.ink}`, text `{colors.primary}` (brand green!), padding `{spacing.xl}`, shape `{rounded.xl}`. Used for promotional moments.
 
 **`currency-converter-card`** — the brand's signature interactive widget.
 - Background `{colors.canvas}`, text `{colors.ink}`, 1 px solid `{colors.ink}` border, padding `{spacing.xl}`, shape `{rounded.xl}`. Hosts from/to amount inputs + currency selectors.
@@ -187,10 +202,10 @@ The brand uses surface contrast (`{colors.canvas-soft}` background vs `{colors.c
 ### Signature Components
 
 **`hero-band`** — the sage-canvas hero band.
-- Background `{colors.canvas-soft}`, text `{colors.ink}`, padding `{spacing.3xl} {spacing.xl}`. Headline in `{typography.display-mega}` (Wise Sans weight 900).
+- Background `{colors.canvas-soft}`, text `{colors.ink}`, padding `{spacing.3xl} {spacing.xl}`. Headline in `{typography.display-mega}` (Display Sans weight 900).
 
 **`hero-band-dark`** — the polarity-flipped dark hero.
-- Background `{colors.ink}`, text `{colors.primary}` (Wise green headline on near-black!), same padding / scale.
+- Background `{colors.ink}`, text `{colors.primary}` (brand green headline on near-black!), same padding / scale.
 
 **`content-band`** — the white content band that follows hero.
 - Background `{colors.canvas}`, text `{colors.ink}`, padding `{spacing.3xl} {spacing.xl}`. Section headline in `{typography.display-md}`.
@@ -239,15 +254,15 @@ The brand uses surface contrast (`{colors.canvas-soft}` background vs `{colors.c
 ## Do's and Don'ts
 
 ### Do
-- Reserve `{colors.primary}` Wise green for every primary CTA. The lime-green pill IS the brand's conversion signature.
-- Set hero headlines in `{typography.display-mega}` / `{typography.display-xl}` Wise Sans weight 900. Never lighter.
+- Reserve `{colors.primary}` brand green for every primary CTA. The lime-green pill IS the brand's conversion signature.
+- Set hero headlines in `{typography.display-mega}` / `{typography.display-xl}` Display Sans weight 900. Never lighter.
 - Use `{rounded.xl}` 24 px for buttons and cards. The generous radius is the brand's friendliness signature.
 - Cycle page surfaces in `{colors.canvas-soft}` sage canvas → `{colors.canvas}` white cards. Surface contrast carries elevation.
-- Use the full semantic palette (positive / warning / negative) for in-product status — never repurpose Wise green as success indicator since it IS the brand CTA.
+- Use the full semantic palette (positive / warning / negative) for in-product status — never repurpose brand green as success indicator since it IS the brand CTA.
 
 ### Don't
-- Don't introduce a second brand accent. Wise green is the sole identity colour.
+- Don't introduce a second brand accent. brand green is the sole identity colour.
 - Don't render the hero in weight 700 or lighter. The brand's display weight is 900.
 - Don't render CTAs as sharp rectangles. The 24 px pill geometry is non-negotiable.
-- Don't pair the green CTA with a green background. The brand always sits Wise green on neutral surfaces (sage / white / ink).
-- Don't replace Wise Sans with a generic geometric sans for hero typography — the proprietary face IS the brand's voice.
+- Don't pair the green CTA with a green background. The brand always sits brand green on neutral surfaces (sage / white / ink).
+- Don't replace Display Sans with a generic geometric sans for hero typography — the proprietary face IS the brand's voice.

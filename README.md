@@ -1,43 +1,51 @@
-# Astro Starter Kit: Minimal
+# Agentic Healing in Production — Slides
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+Slide deck for the **"Agentic Healing in Production"** talk.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- **Speaker:** Jack McNicol — Founding Engineer @ SuperIT (Sparky)
+- **Event:** AI Engineer Melbourne · Web Directions · Federation Square — June 2026
+- **Format:** 18 min talk + separate Q&A
+- **Audience:** Software engineers (with SREs and AI engineers in the room)
 
-## 🚀 Project Structure
+Built with Astro + Tailwind CSS 4. One route per slide, each slide fills the viewport (`100vh × 100vw`).
 
-Inside of your Astro project, you'll see the following folders and files:
+## The talk
+
+Self-healing systems aren't new — Kubernetes operators, Erlang supervisors, Chaos Monkey have done it for years. What's new is that the loops can now be closed by reasoning agents. Earning that autonomy means doing the boring prep first. The deck walks four stages (dental-hygiene metaphor throughout):
+
+1. **Health Check** — prep the repo so the agent can navigate it (AGENTS.md, warnings-as-errors, merge queue).
+2. **Bugs Reported** — triage with intent (Linear Triage Intelligence, Logfire discovery, skills).
+3. **In the Field** — AI suggests → AI acts, with bounded blast radius (PR actions, recurring jobs, webhooks → RCA).
+4. **Agentic Test** — prove every fix in a rich, fast-to-validate report.
+
+Close: shift from *doing the work* to *designing the system that does the work* — speed multiplies foundations or debt.
+
+Full narrative, research backing, demos, and source list live in [`agentic-healing-talk-guide.md`](./agentic-healing-talk-guide.md). Brand/visual system in [`DESIGN.md`](./DESIGN.md).
+
+## Project structure
 
 ```text
 /
-├── public/
+├── public/                 # favicon, static assets
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── layouts/
+│   │   ├── Layout.astro     # HTML shell — fonts, meta, global.css, ink body
+│   │   └── Slide.astro      # single full-viewport slide container
+│   ├── pages/
+│   │   └── index.astro      # Slide 1 — title card
+│   └── styles/
+│       └── global.css       # Tailwind 4 @theme — DESIGN.md tokens
+├── astro.config.mjs
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Each slide is its own page wrapping `<Layout>` + `<Slide>`. Type/colour come from the `@theme` tokens in `global.css` (translated from `DESIGN.md`); `Healing` always renders in brand green `#9fe870`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Commands
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Command | Action |
+| :--- | :--- |
+| `pnpm install` | Install dependencies |
+| `pnpm dev` | Dev server at `localhost:4321` |
+| `pnpm build` | Build to `./dist/` |
+| `pnpm preview` | Preview the build locally |
