@@ -33,14 +33,16 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
         <SubText>Jack McNicol &bull; Founding Engineer @ SuperIT</SubText>
     </Slide>
 
-    <!-- Slide 2 — Agenda / game-menu select. Reused later as a section divider; active is 0-based (0..3). -->
+
+    <!-- Slide 3 — Dentist story. No title; Jack narrates the ~60s story live. -->
     <Slide>
-        <Menu active={0} />
+        <Heading>The <span class='text-primary'>dream</span></Heading>
+        <SubHeading>
+            AI swarms deploying AI agents and subagents to fix production issues while you sleep...
+        </SubHeading>
     </Slide>
 
     <!-- Section 1 — Health Check. Anchor sits on the first slide inside; reorder freely. -->
-    <Section id={MENU_ITEMS[0].slug}>
-        <!-- Slide 3 — Dentist story. No title; Jack narrates the ~60s story live. -->
         <Slide>
             <figure class='w-full'>
                 <Image
@@ -50,6 +52,12 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
                 />
             </figure>
         </Slide>
+
+        <!-- Slide 2 — Agenda / game-menu select. Reused later as a section divider; active is 0-based (0..3). -->
+        <Slide>
+            <Menu active={0} />
+        </Slide>
+    <Section id={MENU_ITEMS[0].slug}>
 
         <!-- Slide 4 — Health Check / Flow state. -->
         <Slide section={MENU_ITEMS[0].name}>
