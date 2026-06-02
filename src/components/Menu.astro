@@ -1,6 +1,6 @@
 ---
 interface Props {
-    /** 0 = agenda (all items lit green, no pointer); 1..4 = that stage lit green with the pointer */
+    /** 0-based index of the lit stage. 0 = Health Check (also the agenda). */
     active?: number;
 }
 const { active = 0 } = Astro.props;
@@ -10,49 +10,73 @@ import Eyebrow from './Eyebrow.astro';
 ---
 
 <div class='flex w-full flex-col gap-10'>
-    <Eyebrow>// select stage</Eyebrow>
+    <Eyebrow>The flow</Eyebrow>
 
-    <ul
-        class='grid grid-cols-[1rem_1.75rem_auto] items-baseline gap-x-7 gap-y-5'
-    >
-        {
-            MENU_ITEMS.map((item, i) => {
-                const isActive = active === i;
-                return (
-                    <li class='contents'>
-                        <a href={`#${item.slug}`} class='contents'>
-                            <span
-                                class:list={[
-                                    'text-display-sm font-black',
-                                    isActive
-                                        ? 'text-primary'
-                                        : 'text-transparent',
-                                ]}
-                            >
-                                ▸
-                            </span>
-                            <span
-                                class:list={[
-                                    'text-display-sm font-semibold tabular-nums',
-                                    isActive ? 'text-primary/60' : 'text-mute',
-                                ]}
-                            >
-                                {item.n}
-                            </span>
-                            <span
-                                class:list={[
-                                    'text-display-sm font-black tracking-tight transition-colors hover:text-primary md:text-display-md',
-                                    isActive
-                                        ? 'text-primary'
-                                        : 'text-canvas-soft/85',
-                                ]}
-                            >
-                                {item.name}
-                            </span>
-                        </a>
-                    </li>
-                );
-            })
-        }
-    </ul>
+    <div class='relative'>
+        <!-- node row -->
+        <ol class='flex items-stretch gap-2 list-none'>
+            {
+                MENU_ITEMS.map((item, i) => {
+                    const isActive = active === i;
+                    return (
+                        <>
+                            <li class='flex-1'>
+                                <a
+                                    href={`#${item.slug}`}
+                                    class:list={[
+                                        'block h-full rounded-xl border px-5 py-4 text-left no-underline transition-colors',
+                                        isActive
+                                            ? 'border-primary bg-primary/10'
+                                            : 'border-white/15 hover:border-primary/50',
+                                    ]}
+                                >
+                                    <span
+                                        class:list={[
+                                            'mt-1 block text-xl font-black tracking-tight md:text-display-xs',
+                                            'text-canvas-soft/85',
+                                        ]}
+                                    >
+                                        {item.name}
+                                    </span>
+                                </a>
+                            </li>
+                            {i < MENU_ITEMS.length - 1 && (
+                                <li
+                                    aria-hidden='true'
+                                    class='flex select-none items-center text-display-sm text-mute'
+                                >
+                                    →
+                                </li>
+                            )}
+                        </>
+                    );
+                })
+            }
+        </ol>
+
+        <!-- dashed feedback loop: Agentic Test → Health Check -->
+        <svg
+            class='mt-3 w-full text-mute'
+            viewBox='0 0 1000 90'
+            fill='none'
+            stroke='currentColor'
+            stroke-width='2'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            aria-hidden='true'
+        >
+            <path
+                d='M952 6 L952 64 Q952 74 942 74 L58 74 Q48 74 48 64 L48 20'
+                stroke-dasharray='2 9'></path>
+            <path d='M40 30 L48 16 L56 30'></path>
+            <text
+                x='500'
+                y='60'
+                text-anchor='middle'
+                fill='currentColor'
+                stroke='none'
+                class='text-[17px] lowercase'>feedback</text
+            >
+        </svg>
+    </div>
 </div>

@@ -4,42 +4,45 @@ The shared vocabulary for the talk's narrative. Defines the canonical section na
 
 ## Language
 
+The talk follows the **guide's spine** (`agentic-healing-talk-guide.md`) — four numbered sections plus an unnumbered close. The `Menu` component renders this spine as the mermaid-style flowchart (nodes + arrows + a dashed feedback loop).
+
 **Health Check**:
-Section 1. Prepping the repo/environment so an agent can navigate it (pre-game rituals).
-_Avoid_: "Repo prep" as a section name (use as description only).
+Section 1 — *prep the patient*. Prepping the repo/environment so an agent can navigate it: Flow state, AGENTS.md, read the sessions, the dumb zone, warnings-as-errors, merge queue.
+
+**Bugs Reported**:
+Section 2 — *triage the symptom*. Triage with intent: Unassigned → AI triage (Linear Triage Intelligence), discovery via Logfire, review with skills.
 
 **In the Field**:
-Section 2. The agent acting in production — PR actions, recurring jobs, webhooks → RCA.
-_Avoid_: "Heal on trigger" as a section name.
+Section 3 — *heal on trigger*. AI suggests → AI acts, bounded blast radius: PR actions, recurring jobs, webhooks → RCA, the project-manager loop, the Sparky hero demo.
 
-**Practise**:
-Section 3. ⚠️ Scope not yet defined. Likely the "prove it" / proving-the-fix material (formerly "Agentic Test") and/or hands-on guides. Holds the **Intake Flow** (at the section end) and **Merge queue**. Pin down before building section 3.
+**Agentic Test**:
+Section 4 — *prove it worked*. Prove every fix in a rich, fast-to-validate report (Meijer's "rich report" move, `report.html`, the principle).
 
-**Agentic Future**:
-Section 4. Forward-looking principles and guides for earning autonomy.
-
-**Intake Flow**:
-The funnel feeding the agentic pipeline. Two sources: human reports (Slack, or Linear deduping "these are the same") and machine alerts (Logfire / Sentry exceptions firing). Lives at the **end of Practise**.
-_Avoid_: "Bugs Reported" as a section name — it is one source within the Intake Flow, not a section.
+**Close**:
+Unnumbered ending — "What's the point?", the argument, the warning, the call to action, thanks. May include the 12-Factor namecheck slide.
 
 **Autonomy Ladder**:
-The read-only → suggest → human-approved act → auto-act progression. Trust earned one rung at a time.
+The read-only → suggest → human-approved act → auto-act progression. Trust earned one rung at a time. Blast radius widens across the four sections.
 
 **Dental metaphor**:
-The talk's spine. Brush teeth (Health Check) → X-ray/filling (In the Field) → post-op check (proving the fix). "Agents are dentists; most codebases haven't flossed in years."
+The talk's spine. Brush teeth (Health Check) → X-ray (triage) → filling (In the Field) → post-op check (Agentic Test). "Agents are dentists; most codebases haven't flossed in years."
+
+**12-Factor anchors**:
+Dex Horthy's [12-Factor Agents](https://github.com/humanlayer/12-factor-agents). Each section namechecks a subset (HC: F2/F3/F9/F13; Bugs: F1/F4/F10; Field: F5–F8/F11/F12; Test: F4/F12). Namecheck, don't recite. Pull-quote: *"Most successful production agents are deterministic code with strategically placed LLM steps."*
 
 ## Relationships
 
-- The **Intake Flow** (end of **Practise**) has two sources (human reports, machine alerts) → one agentic pipeline.
-- Each section maps to an **Autonomy Ladder** rung — blast radius widens as the talk progresses.
-- **SuperIT / Sparky** is the recurring proof case threaded through the sections (no longer its own section).
+- The four sections run **reactive → proactive** and **AI suggests → AI acts**; the dashed feedback arrow loops Agentic Test back to Health Check.
+- Each section maps to an **Autonomy Ladder** rung.
+- **SuperIT / Sparky** is the recurring proof case threaded through the sections (the hero demo lives in In the Field).
+- Each section ends with a **"How we use it"** slide — a flowchart of the real SuperIT usage, rendered at build time via `Mermaid.astro` (beautiful-mermaid). Health Check: a `Schedule` group (pay down code debt, pay down skills debt, architecture audit, test coverage) → draft PR. Bugs Reported / In the Field / Agentic Test: flows TBD (await Jack's groups/nodes).
 
 ## Example dialogue
 
 > **Reviewer:** "Is 'Bugs Reported' its own section?"
-> **Jack:** "No — bugs reported is part of a flow. Humans report via Slack, or Linear says these are the same, and they flow into the agentic pipeline. Alerts firing in Logfire or Sentry flow into the same pipeline. It's the Intake Flow, and it sits at the end of Practise."
+> **Jack:** "Yes — it's section 2, triage. Humans report via Slack or Linear; alerts fire in Logfire/Sentry; the agent does the first triage pass and shows its work."
 
 ## Flagged ambiguities
 
-- The guide ships a 4-process-stage "spine" (Health Check / Bugs Reported / In the Field / Agentic Test). **Resolved:** non-canonical. Canonical sections are **Health Check / In the Field / Practise / Agentic Future** (per the `Menu` component). Guide body is re-mapped section-by-section as each is built: Bugs Reported → Intake Flow (now end of Practise); Agentic Test → likely Practise.
-- **"Practise"** scope undefined — see Language note. Resolve before building section 3. Known content so far: **Merge queue** (moved out of Health Check) and **Intake Flow** (at section end, moved out of In the Field).
+- **Resolved (2026-06-01):** earlier the menu used Jack's own names (Health Check / In the Field / Practise / Agentic Future) as canonical. Now reverted — the **guide's spine is canonical**: Health Check / Bugs Reported / In the Field / Agentic Test + Close. "Practise" and "Agentic Future" are dropped; the intake-flow-into-Practise and merge-queue-into-Practise relocations are reverted (merge queue is back in Health Check; triage is its own Bugs Reported section).
+- The `Menu` is now a **flowchart** (mermaid spine), not the vertical game-menu list.

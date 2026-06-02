@@ -47,16 +47,7 @@ flowchart LR
 
 ### Slide notes
 
-**Slide 1 — Title card.** "Agentic Healing in Production." Your name, Jack McNicol.
-Founding Engineer at SuperIT
-
-**Slide 2 - TOC - outline of talk** Should
-show like game menu select.
-Health Check. - pre game rituals
-In the Field. - various guides.
-Agentic Future. - looking ahead priciples and guides
-Real World. - superit applications
-
+**Slide 1 — Title card.** "Agentic Healing in Production." Your name, SuperIT/Sparky.
 
 **Slide 2 — A photo / sketch.** Dental hygienist tools. No title.
 
@@ -82,6 +73,8 @@ The arc moves from **reactive → proactive** and from **AI suggests → AI acts
 
 > *"You don't deploy an agent into a codebase. You deploy it into an environment. The environment includes the code, the history of past sessions, the CI signal, and the merge process. Heal that environment first."*
 
+> 🧭 **12-Factor anchors:** F2 (Own your prompts), F3 (Own your context window), F9 (Compact errors), F13 (Pre-fetch context). See appendix.
+
 ### Slide notes
 
 **Slide 4 — Header.** "Agentic Health Check." Subtitle: *"Brush the teeth."*
@@ -93,7 +86,7 @@ Talking points (60s):
 - The fix is unglamorous: clear file naming, top-level `AGENTS.md` / `CLAUDE.md` describing how the code is organised and *how to navigate it*, examples of "good" PRs in a `docs/agent-examples/` folder, README per package.
 - Concrete pattern from Anthropic's own Claude Code team (Thariq): start projects by deleting your `AGENTS.md` and rebuilding it from scratch every few weeks based on what the agent kept getting wrong.
 
-**The deep cut:** [Dex Horthy's "No Vibes Allowed" talk at AI Engineer World's Fair 2025](https://www.youtube.com/watch?v=rmvDxxNubIg) frames this as **context engineering**. Quote you can drop:
+**The deep cut:** [Dex Horthy's "No Vibes Allowed" talk at AI Engineer World's Fair 2025](https://www.youtube.com/watch?v=rmvDxxNubIg) frames this as **context engineering** — formalised as Factor 3 in his [12-Factor Agents](https://github.com/humanlayer/12-factor-agents) (see appendix). Quote you can drop:
 
 > *"As context usage grows, model quality degrades. Empirically, this often begins around ~40% of the context window. This region is referred to as the dumb zone."* — Dex Horthy
 
@@ -136,6 +129,8 @@ Show one screenshot: a before/after of an `AGENTS.md`. Before: empty or one line
 ## SECTION 2 — Bugs Reported (3:30)
 
 > *"The X-ray comes before the filling. Triage well, or the agent will go fix something that isn't broken."*
+
+> 🧭 **12-Factor anchors:** F1 (NL → tool calls), F4 (Tools as structured outputs), F10 (Small focused agents). See appendix.
 
 ### Slide notes
 
@@ -180,6 +175,8 @@ Pre-record ~30 seconds: a fresh Linear ticket appearing in Triage → suggestion
 ## SECTION 3 — In the Field (4:30)
 
 > *"This is where the agent stops suggesting and starts acting. Bound the blast radius, or it'll take the patient with it."*
+
+> 🧭 **12-Factor anchors:** F5 (Unify execution + business state), F6 (Launch/Pause/Resume), F7 (Contact humans via tool calls), F8 (Own your control flow), F11 (Trigger from anywhere), F12 (Stateless reducer). See appendix.
 
 This is your biggest section and your hero demo lives here. Three sub-themes: **PR actions, Recurring, Webhooks** — plus the project-manager outer loop.
 
@@ -244,6 +241,8 @@ This is your one big show-don't-tell moment. Sparky resolving a real MSP inciden
 ## SECTION 4 — Agentic Test (2:30)
 
 > *"What can you do to show me that the fix worked, in an easier way than reading the code?"*
+
+> 🧭 **12-Factor anchors:** F4 (Tools as structured outputs — the `report.html` IS the artefact), F12 (Stateless reducer — the report is the state reduction). See appendix.
 
 This is the section that ties to **Lucas Meijer's "A love letter to Pi"** talk. Watch it before you write this slide — it lands hard for this exact audience.
 
@@ -396,6 +395,89 @@ flowchart LR
 
 ---
 
+## Applying 12-Factor Agents (Dex Horthy)
+
+> *"Most successful production 'agents' are deterministic code with strategically placed LLM steps, not loop-until-done."* — Dex Horthy, *12-Factor Agents*
+
+[Horthy's 12-Factor Agents](https://github.com/humanlayer/12-factor-agents) is the most-cited framework in production agent engineering right now (19k+ stars; written in the spirit of Heroku's [12-Factor App](https://12factor.net/)). The arc of this talk maps cleanly onto a subset of those factors — and namechecking them earns instant credibility with the AI Engineer crowd. You don't need to teach the framework; you need to show that Sparky was built on it.
+
+### How the factors map to your four sections
+
+```mermaid
+flowchart LR
+    subgraph S1[Health Check]
+      F2["F2: Own your prompts"]
+      F3["F3: Own your context window"]
+      F9["F9: Compact errors"]
+      F13["F13: Pre-fetch context"]
+    end
+    subgraph S2[Bugs Reported]
+      F1["F1: NL to tool calls"]
+      F4["F4: Tools as structured outputs"]
+      F10["F10: Small focused agents"]
+    end
+    subgraph S3[In the Field]
+      F5["F5: Unify execution + business state"]
+      F6["F6: Launch/Pause/Resume"]
+      F7["F7: Contact humans via tool calls"]
+      F8["F8: Own your control flow"]
+      F11["F11: Trigger from anywhere"]
+      F12["F12: Stateless reducer"]
+    end
+    subgraph S4[Agentic Test]
+      F4b["F4: Structured outputs as artefacts"]
+      F12b["F12: State as a reduction"]
+    end
+```
+
+### Section-by-section anchor table
+
+| Section | Factor | What it means | How you apply it |
+|---|---|---|---|
+| Health Check | **F2 — Own your prompts** | Don't outsource the prompt to a framework. Version-control it like code. | Your `AGENTS.md` and skill definitions ARE your prompts. Treat them as production assets — diffed, reviewed, evaluated. |
+| Health Check | **F3 — Own your context window** | What enters context is an engineering decision, not a default. | Repo prep, AGENTS.md, examples folder = a curated context budget. Stay out of the "dumb zone" (~40% of the window). |
+| Health Check | **F9 — Compact errors** | Errors fed back to the agent should be terse and actionable. | Warnings-as-errors keeps the signal clean. Tightened linters give the agent (and the human reviewer) a cleaner read on every run. |
+| Health Check | **F13 — Pre-fetch context** | Anything you can know up front, fetch up front. Don't make the agent search for it. | Skills pre-load: recent similar issues, the affected service's last 24h of telemetry, the relevant module's docs — before the LLM is invoked. |
+| Bugs Reported | **F1 — NL → tool calls** | The agent's job is to turn the user's natural-language bug into structured action: `assign(team=X, label=Y, severity=Z)`. | Linear Triage Intelligence is this factor as a product. Sparky's triage skill is the same shape. |
+| Bugs Reported | **F4 — Tools as structured outputs** | Tool calls are just typed JSON. No magic. | Define the triage output schema; validate it; reject malformed calls. Linear's "thinking panel" is a window onto this. |
+| Bugs Reported | **F10 — Small focused agents** | A triage agent is not a fix agent is not a remediation agent. Compose, don't conflate. | Cheap deterministic rules first, escalate ambiguous cases to an LLM — and never to the same agent that will write code. |
+| In the Field | **F5 — Unify execution + business state** | The Linear ticket, the GitHub PR, the PagerDuty incident *are* the agent's state. Don't keep a parallel store. | When the PR closes, the agent's job for that incident is done. When Linear reopens it, the agent picks up where it left off. |
+| In the Field | **F6 — Launch/Pause/Resume** | Long-running agentic work must survive crashes, restarts, and human pauses. | Durable execution (Temporal, Cloudflare's pattern) is this factor as infrastructure. The investigation pauses when it asks a human, resumes when they answer. |
+| In the Field | **F7 — Contact humans with tool calls** | Asking a human a question is just another tool call, not a special control-flow exit. | The approval gate in your hero demo is `request_human_approval(action)` — a tool, not a framework exception. |
+| In the Field | **F8 — Own your control flow** | Don't let the framework loop for you. You decide when to call the model and when to switch to deterministic code. | The remediation flow is mostly Go/TS code with LLM steps at specific decision points. Not "loop until done." |
+| In the Field | **F11 — Trigger from anywhere** | The same agent should be reachable from a webhook, a cron, a Slack mention, a GitHub event. | Logfire webhook, PostHog webhook, scheduled `/audit`, and a Slack `@sparky` mention all route to the same triage+remediate pipeline. |
+| In the Field | **F12 — Stateless reducer** | `agent(state, event) → next_state`. No hidden state, no implicit memory. | The agent reads everything it needs from the canonical store (Linear, GitHub, telemetry) and writes back to it. No "agent memory" sitting in a vector DB pretending to be authoritative. |
+| Agentic Test | **F4 — Structured outputs as artefacts** | The `report.html` is the agent's most important structured output. | Schema-validate every fix report: before/after metrics, evidence, test plan, owner, links. A human can skim it in 30 seconds. |
+| Agentic Test | **F12 — State as a reduction** | The validation artefact is a pure function of (initial state, agent actions). It reproduces. | Every fix is reproducible from the report alone — same diff, same test plan, same metrics. Audit-ready. |
+
+### One slide you can drop in
+
+If you want a single slide that namechecks the framework without slowing the talk, this is it:
+
+**Title:** *"We didn't invent this — we built on Horthy's 12-Factor Agents."*
+
+**Body (4 bullets, one per section):**
+- **Health Check** — Own your prompts, own your context, pre-fetch what matters *(F2, F3, F13)*
+- **Bugs Reported** — Natural language to structured tool calls, small focused agents *(F1, F4, F10)*
+- **In the Field** — Durable workflows, humans as tool calls, stateless reducer, trigger from anywhere *(F6, F7, F11, F12)*
+- **Agentic Test** — The report IS the structured output *(F4, F12)*
+
+Place this slide either **right after the dentist intro** (frames the whole talk in the framework — best if you sense an SRE-heavy room) or **right before "What's the point?"** (lets the audience discover the framework themselves first — best if you want the dental metaphor to carry uncontested). Either works.
+
+### The Horthy pull-quote to land at least once
+
+> *"Most successful production agents are deterministic code with strategically placed LLM steps."*
+
+This is the line that connects every section of your talk. The repo prep, the triage skill, the durable workflow, the report.html — every one of them is deterministic code with strategically placed LLM steps. Say it once, slowly, and the audience will remember the rest.
+
+### What to avoid
+
+- **Don't recite all 12 factors.** The audience either knows them (you've earned credit by namechecking) or doesn't (a list is boring).
+- **Don't claim Horthy's framing as your own.** The strength is *using* the framework in production, not authoring it.
+- **Don't get drawn into a framework debate.** Horthy's whole point is that most production agents aren't agentic at all. Lean into that — it's friendly to the SREs in the room.
+
+---
+
 ## Timing budget
 
 | Section | Time | Running |
@@ -415,7 +497,8 @@ If you run over: cut the second demo clip in Section 2 first, then cut Slide 17 
 ## Source list (consolidated)
 
 **Agent infrastructure & patterns**
-- Dex Horthy, *12-Factor Agents*, AI Engineer World's Fair 2025: https://www.youtube.com/watch?v=8kMaTybvDUw
+- Dex Horthy, **12-Factor Agents** (repo + framework, 19k+ stars): https://github.com/humanlayer/12-factor-agents
+- Dex Horthy, *12-Factor Agents* talk, AI Engineer World's Fair 2025: https://www.youtube.com/watch?v=8kMaTybvDUw
 - Dex Horthy, *No Vibes Allowed*, AI Engineer World's Fair 2025: https://www.youtube.com/watch?v=rmvDxxNubIg
 - Barry Zhang (Anthropic), *How We Build Effective Agents*, AI Engineer Summit NYC 2025: https://www.youtube.com/watch?v=D7_ipDqhtwk
 - Boris Cherny (Anthropic), *Claude Code & the evolution of agentic coding*: https://www.youtube.com/watch?v=Lue8K2jqfKk

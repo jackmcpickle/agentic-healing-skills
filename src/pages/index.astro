@@ -9,19 +9,47 @@ import SubHeading from '../components/SubHeading.astro';
 import SubText from '../components/SubText.astro';
 import Quote from '../components/Quote.astro';
 import Eyebrow from '../components/Eyebrow.astro';
+import Mermaid from '../components/Mermaid.astro';
 import Waves from '../components/icons/Waves.astro';
 import Compass from '../components/icons/Compass.astro';
 import Replay from '../components/icons/Replay.astro';
-import DumbZone from '../components/icons/DumbZone.astro';
 import Warning from '../components/icons/Warning.astro';
+import MergeQueue from '../components/icons/MergeQueue.astro';
+import Triage from '../components/icons/Triage.astro';
+import Telemetry from '../components/icons/Telemetry.astro';
+import Skills from '../components/icons/Skills.astro';
+import PullRequest from '../components/icons/PullRequest.astro';
+import Clock from '../components/icons/Clock.astro';
+import Bolt from '../components/icons/Bolt.astro';
+import Thread from '../components/icons/Thread.astro';
+import Report from '../components/icons/Report.astro';
+import Target from '../components/icons/Target.astro';
+import Star from '../components/icons/Star.astro';
 import teeth from '../assets/jacks-check-teeth.png';
 import { MENU_ITEMS } from '../constants';
 import { resetSlideIds } from '../lib/slideCounter';
 
 resetSlideIds(); // restart slide-N numbering at the top of each page render
+
+// "How we use it" flows, rendered to SVG at build time (beautiful-mermaid).
+const healthCheckFlow = `flowchart LR
+  subgraph Schedule
+    direction TB
+    A[Pay down code debt]
+    B[Pay down skills debt]
+    C[Architecture audit]
+    D[Test coverage]
+  end
+  A --> pr[PR]
+  B --> pr
+  C --> pr
+  D --> pr`;
 ---
 
 <Layout title='Agentic Healing in Production'>
+    {/* ───────────── INTRO ───────────── */}
+
+    <!-- Title card. -->
     <Slide>
         <Heading
             as='h1'
@@ -33,33 +61,37 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
         <SubText>Jack McNicol &bull; Founding Engineer @ SuperIT</SubText>
     </Slide>
 
-
-    <!-- Slide 3 — Dentist story. No title; Jack narrates the ~60s story live. -->
+    <!-- The dream — the hook. -->
     <Slide>
-        <Heading>The <span class='text-primary'>dream</span></Heading>
-        <SubHeading>
-            AI swarms deploying AI agents and subagents to fix production issues while you sleep...
-        </SubHeading>
+        <div class='flex flex-col items-start gap-8 text-left'>
+            <Star />
+            <Heading>The <span class='text-primary'>dream</span></Heading>
+            <SubHeading>
+                AI swarms deploying agents and subagents to fix production
+                issues while you sleep…
+            </SubHeading>
+        </div>
     </Slide>
 
-    <!-- Section 1 — Health Check. Anchor sits on the first slide inside; reorder freely. -->
-        <Slide>
-            <figure class='w-full'>
-                <Image
-                    src={teeth}
-                    alt=''
-                    class='max-h-[80vh] w-full rounded-xl object-contain'
-                />
-            </figure>
-        </Slide>
+    <!-- Dentist story. No title; Jack narrates the ~60s story live. -->
+    <Slide>
+        <figure class='w-full'>
+            <Image
+                src={teeth}
+                alt=''
+                class='max-h-[80vh] w-full object-contain rounded-full'
+            />
+        </figure>
+    </Slide>
 
-        <!-- Slide 2 — Agenda / game-menu select. Reused later as a section divider; active is 0-based (0..3). -->
-        <Slide>
-            <Menu active={0} />
-        </Slide>
+    <!-- Agenda — the spine flowchart. Health Check lit; reused as a divider per section. -->
+    <Slide>
+        <Menu active={0} />
+    </Slide>
+
+    {/* ───────────── 01 · HEALTH CHECK ───────────── */}
     <Section id={MENU_ITEMS[0].slug}>
-
-        <!-- Slide 4 — Health Check / Flow state. -->
+        <!-- Flow state. -->
         <Slide section={MENU_ITEMS[0].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Waves />
@@ -71,7 +103,7 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
             </div>
         </Slide>
 
-        <!-- Health Check / AGENTS.md. DRAFT — repo-prep headline tactic. -->
+        <!-- AGENTS.md. DRAFT — repo-prep headline tactic. -->
         <Slide section={MENU_ITEMS[0].name} draft={true}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Compass />
@@ -87,7 +119,7 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
             </div>
         </Slide>
 
-        <!-- Slide 5 — Health Check / Analyse previous sessions. -->
+        <!-- Analyse previous sessions. -->
         <Slide section={MENU_ITEMS[0].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Replay />
@@ -105,25 +137,7 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
             </div>
         </Slide>
 
-        <!-- Slide 6 — Health Check / The dumb zone (Dex Horthy). -->
-        <Slide section={MENU_ITEMS[0].name}>
-            <div class='flex flex-col items-start gap-8 text-left'>
-                <DumbZone />
-                <Eyebrow>The dumb zone</Eyebrow>
-                <Quote>
-                    “As context usage grows, model quality degrades —
-                    empirically, this often begins around <span
-                        class='text-primary'>~40%</span
-                    > of the context window.”
-                    <Fragment slot='cite'>
-                        — Dex Horthy &nbsp;·&nbsp; Repo prep keeps the agent out
-                        of it.
-                    </Fragment>
-                </Quote>
-            </div>
-        </Slide>
-
-        <!-- Slide 7 — Health Check / Warnings = errors. -->
+        <!-- Warnings = errors. -->
         <Slide section={MENU_ITEMS[0].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Warning />
@@ -134,18 +148,316 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
                     A noisy build teaches the agent that warnings don’t matter.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    -Werror · noImplicitAny · lint on max · fail CI on any
-                    warning.
+                    Make every warning fail the build — a clean signal for the
+                    agent, and for you.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- Merge queue. -->
+        <Slide section={MENU_ITEMS[0].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <MergeQueue />
+                <Heading>Merge <span class='text-primary'>queue</span></Heading>
+                <SubHeading>
+                    Agents open many PRs. Test each against the exact tree it
+                    merges into.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    No more “passed CI, broke main” — and one chokepoint for the
+                    heavy checks.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- How we use it — scheduled health-check jobs. -->
+        <Slide section={MENU_ITEMS[0].name}>
+            <div class='flex w-full flex-col items-start gap-8 text-left'>
+                <Eyebrow>How we use it</Eyebrow>
+                <Mermaid code={healthCheckFlow} />
+            </div>
+        </Slide>
+    </Section>
+
+    {/* ───────────── 02 · BUGS REPORTED ───────────── */}
+    <Section id={MENU_ITEMS[1].slug}>
+        <!-- Divider. -->
+        <Slide>
+            <Menu active={1} />
+        </Slide>
+
+        <!-- Unassigned → AI triage. -->
+        <Slide section={MENU_ITEMS[1].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Triage />
+                <Heading
+                    >Unassigned <span class='text-primary'>→</span> triage</Heading
+                >
+                <SubHeading>
+                    An agent does the first pass — assignee, team, labels,
+                    severity.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    The win isn’t “AI triages”. It’s that the agent shows its
+                    work.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- Discovery: Logfire. -->
+        <Slide section={MENU_ITEMS[1].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Telemetry />
+                <Heading>Discovery</Heading>
+                <SubHeading>
+                    The agent’s hypothesis is only as good as the telemetry it
+                    can read.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Logfire → LLM-readable traces. Pull the last N matching the
+                    complaint, hypothesise a cause.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- Review with skills. -->
+        <Slide section={MENU_ITEMS[1].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Skills />
+                <Heading>Review with <span class='text-primary'>skills</span
+                    ></Heading
+                >
+                <SubHeading>
+                    A skill is a reusable procedure: input → checklist → output.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Cheap deterministic rules first. The LLM only when it’s
+                    ambiguous.
                 </SubHeading>
             </div>
         </Slide>
     </Section>
 
-    <!-- Section 2 — In the Field. Divider Menu is the section start. -->
-    <Section id={MENU_ITEMS[1].slug}>
-        <!-- Slide 8 — Section divider → In the Field. -->
+    {/* ───────────── 03 · IN THE FIELD ───────────── */}
+    <Section id={MENU_ITEMS[2].slug}>
+        <!-- Divider. -->
         <Slide>
-            <Menu active={1} />
+            <Menu active={2} />
+        </Slide>
+
+        <!-- PR actions. -->
+        <Slide section={MENU_ITEMS[2].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <PullRequest />
+                <Heading>The PR is the <span class='text-primary'>guardrail</span
+                    ></Heading
+                >
+                <SubHeading>
+                    Branch, review, CI — let agents run wild behind the human
+                    gate.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Greptile · Cursor BugBot · Claude Code Review. Stack
+                    reviewers, don’t replace them.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- Recurring. -->
+        <Slide section={MENU_ITEMS[2].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Clock />
+                <Heading>Recurring</Heading>
+                <SubHeading>
+                    Cron-style agents. Lowest urgency, widest blast radius —
+                    they run unattended.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Dependabot · scheduled scans · weekly “fix the worst Sentry
+                    issue”. Read-only first.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- Webhooks → RCA. -->
+        <Slide section={MENU_ITEMS[2].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Bolt />
+                <Heading>Heal on <span class='text-primary'>trigger</span
+                    ></Heading
+                >
+                <SubHeading>
+                    Production event fires → agent investigates → posts findings
+                    in 1–2 minutes.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Logfire / PostHog webhook → parallel searcher sub-agents →
+                    report in Slack.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- Project manager. -->
+        <Slide section={MENU_ITEMS[2].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Thread />
+                <Heading>Close the <span class='text-primary'>loop</span
+                    ></Heading
+                >
+                <SubHeading>
+                    Fix lands → the agent closes the Linear issue and threads
+                    back to Slack.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Hygienic, not glamorous — it makes the next triage faster.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- Hero demo. DRAFT — pre-recorded Sparky run. -->
+        <Slide section={MENU_ITEMS[2].name} draft={true}>
+            <div class='flex w-full flex-col items-start gap-8 text-left'>
+                <Eyebrow>Hero demo · Sparky</Eyebrow>
+                <div
+                    class='flex aspect-video w-full items-center justify-center rounded-xl border border-dashed border-mute/40'
+                >
+                    <span class='text-sm uppercase tracking-[0.35em] text-mute'>
+                        Sparky hero demo — recording TODO
+                    </span>
+                </div>
+                <SubText>
+                    This run cost $0.34. A senior tech costs A$3.50/min on call.
+                </SubText>
+            </div>
         </Slide>
     </Section>
+
+    {/* ───────────── 04 · AGENTIC TEST ───────────── */}
+    <Section id={MENU_ITEMS[3].slug}>
+        <!-- Divider. -->
+        <Slide>
+            <Menu active={3} />
+        </Slide>
+
+        <!-- The Meijer move. -->
+        <Slide section={MENU_ITEMS[3].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Report />
+                <Heading>Make it <span class='text-primary'>prove</span> its work</Heading
+                >
+                <SubHeading>
+                    A rich report — video, images, metrics — you can skim in 30
+                    seconds.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Validating the agent’s work is the bottleneck. Compress it.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- In practice. -->
+        <Slide section={MENU_ITEMS[3].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Telemetry />
+                <Heading>In practice</Heading>
+                <SubHeading>
+                    The bug reproducing on <span class='text-primary'>main</span
+                    >, and not reproducing on the branch.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Before/after dashboards with the deploy marker. The weekly
+                    report as HTML, not a Slack message.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- The principle. -->
+        <Slide section={MENU_ITEMS[3].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Target />
+                <Eyebrow>The principle</Eyebrow>
+                <Quote>
+                    “Have the agent prove its work in the format that’s <span
+                        class='text-primary'>fastest for you to validate</span
+                    >.”
+                </Quote>
+            </div>
+        </Slide>
+    </Section>
+
+    {/* ───────────── CLOSE ───────────── */}
+
+    <!-- 12-Factor namecheck. -->
+    <Slide>
+        <div class='flex flex-col items-start gap-8 text-left'>
+            <Skills />
+            <Heading>We didn’t <span class='text-primary'>invent</span> this</Heading
+            >
+            <SubHeading>
+                Built on Horthy’s 12-Factor Agents — own your prompts, own your
+                context, humans as tool calls, the report as structured output.
+            </SubHeading>
+            <Quote>
+                “Most successful production agents are deterministic code with
+                <span class='text-primary'>strategically placed LLM steps</span
+                >.”
+                <Fragment slot='cite'>— Dex Horthy, 12-Factor Agents</Fragment>
+            </Quote>
+        </div>
+    </Slide>
+
+    <!-- What's the point? -->
+    <Slide>
+        <div class='flex flex-col items-start gap-8 text-left'>
+            <Target />
+            <Heading>What’s the <span class='text-primary'>point</span>?</Heading>
+            <SubHeading>
+                Stop doing the work AI is now better at — so you can do the work
+                it can’t.
+            </SubHeading>
+            <SubHeading variant='muted'>
+                From writing the fix to writing the guardrails. From reviewing
+                the diff to validating the report.
+            </SubHeading>
+        </div>
+    </Slide>
+
+    <!-- The warning. -->
+    <Slide>
+        <div class='flex flex-col items-start gap-8 text-left'>
+            <Warning />
+            <Eyebrow>The trap</Eyebrow>
+            <Quote>
+                Speed is <span class='text-primary'>neutral</span>. It
+                multiplies what you already have — foundations or debt.
+            </Quote>
+            <SubHeading variant='muted'>
+                Skip the foundation and you get the Cloudflare failure mode:
+                automation confidently making things worse.
+            </SubHeading>
+        </div>
+    </Slide>
+
+    <!-- Call to action. -->
+    <Slide>
+        <div class='flex flex-col items-start gap-8 text-left'>
+            <Star />
+            <Heading>Build the <span class='text-primary'>ladder</span></Heading>
+            <SubHeading>
+                Pick the dumbest ticket. Wire one agent to it. Read-only for two
+                weeks. Then promote it one rung.
+            </SubHeading>
+        </div>
+    </Slide>
+
+    <!-- Thanks. -->
+    <Slide>
+        <Heading as='h1' size='title'>
+            <span class='text-primary'>Thanks</span> 🩺
+        </Heading>
+        <SubText>
+            Jack McNicol &bull; SuperIT / Sparky &bull; AI Engineer Melbourne
+            2026
+        </SubText>
+    </Slide>
 </Layout>

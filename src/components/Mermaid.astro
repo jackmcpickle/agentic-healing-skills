@@ -1,0 +1,42 @@
+---
+import { renderMermaidSVG } from 'beautiful-mermaid';
+
+interface Props {
+    /** Mermaid source (flowchart, etc.). Rendered to SVG at build time. */
+    code: string;
+    class?: string;
+}
+const { code, class: className } = Astro.props;
+
+// Brand-themed render — ink canvas, canvas-soft text, brand green arrows.
+const svg = renderMermaidSVG(code, {
+    bg: '#0e0f0c',
+    fg: '#e8ebe6',
+    line: '#5a5d54',
+    accent: '#9fe870',
+    muted: '#868685',
+    surface: '#181a13',
+    border: '#3a3d35',
+    font: 'Inter Variable, Inter, system-ui, sans-serif',
+});
+---
+
+<div
+    class:list={[
+        'mermaid-flow w-full [&_svg]:h-auto [&_svg]:max-h-[70vh] [&_svg]:w-full',
+        className,
+    ]}
+    set:html={svg}
+>
+</div>
+
+<style is:global>
+    /* subgraph container → light gray box with a dark label */
+    .mermaid-flow svg {
+        --_group-fill: #d3d3d3 !important;
+        --_group-hdr: #c4c4c4 !important;
+    }
+    .mermaid-flow svg g.subgraph > text {
+        fill: #0e0f0c !important;
+    }
+</style>

@@ -1,0 +1,12 @@
+---
+import IconBase from '../IconBase.astro';
+
+interface Props {
+    class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<IconBase class={className}>
+    <path d='M6 10 L42 10 L28 26 L28 40 L20 34 L20 26 Z'></path>
+</IconBase>
