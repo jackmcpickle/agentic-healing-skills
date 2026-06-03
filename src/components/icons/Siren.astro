@@ -1,0 +1,18 @@
+---
+import IconBase from '../IconBase.astro';
+
+interface Props {
+    class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<!-- Alarm siren — time to exploit is now hours. -->
+<IconBase class={className}>
+    <path d='M15 33 A9 9 0 0 1 33 33'></path>
+    <path d='M11 33 L37 33'></path>
+    <path d='M13 39 L35 39'></path>
+    <path d='M24 15 L24 9'></path>
+    <path d='M9 20 L13 23'></path>
+    <path d='M39 20 L35 23'></path>
+</IconBase>

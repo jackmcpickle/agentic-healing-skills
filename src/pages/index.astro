@@ -10,33 +10,36 @@ import SubText from '../components/SubText.astro';
 import Quote from '../components/Quote.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Mermaid from '../components/Mermaid.astro';
+import Star from '../components/icons/Star.astro';
 import Waves from '../components/icons/Waves.astro';
-import Compass from '../components/icons/Compass.astro';
 import Replay from '../components/icons/Replay.astro';
 import Warning from '../components/icons/Warning.astro';
-import MergeQueue from '../components/icons/MergeQueue.astro';
+import BackPressure from '../components/icons/BackPressure.astro';
+import Fire from '../components/icons/Fire.astro';
 import Triage from '../components/icons/Triage.astro';
 import Telemetry from '../components/icons/Telemetry.astro';
+import Clock from '../components/icons/Clock.astro';
+import Person from '../components/icons/Person.astro';
 import Skills from '../components/icons/Skills.astro';
 import PullRequest from '../components/icons/PullRequest.astro';
-import Clock from '../components/icons/Clock.astro';
 import Bolt from '../components/icons/Bolt.astro';
 import Thread from '../components/icons/Thread.astro';
 import Report from '../components/icons/Report.astro';
 import Target from '../components/icons/Target.astro';
-import Star from '../components/icons/Star.astro';
+import Siren from '../components/icons/Siren.astro';
 import teeth from '../assets/jacks-check-teeth.png';
+import taskManually from '../assets/task-manually.webp';
 import { MENU_ITEMS } from '../constants';
 import { resetSlideIds } from '../lib/slideCounter';
 
 resetSlideIds(); // restart slide-N numbering at the top of each page render
 
-// "How we use it" flows, rendered to SVG at build time (beautiful-mermaid).
+// Flows rendered to SVG at build time (beautiful-mermaid).
 const healthCheckFlow = `flowchart LR
   subgraph Schedule
     direction TB
-    A[Pay down code debt]
-    B[Pay down skills debt]
+    A[code debt]
+    B[Wiki debt]
     C[Architecture audit]
     D[Test coverage]
   end
@@ -44,6 +47,22 @@ const healthCheckFlow = `flowchart LR
   B --> pr
   C --> pr
   D --> pr`;
+
+// Event / Recurring / Human → pipeline, with a review loop, then the merge queue.
+const pipelineFlow = `flowchart LR
+  E[Event]
+  R[Recurring]
+  H[Human]
+  E --> P[Pipeline]
+  R --> P
+  H --> P
+  P --> V[Review]
+  V --> P
+  P --> M[Merge queue]`;
+
+// The hero-demo flow shown in the In-the-Field demo slide.
+const demoFlow = `flowchart LR
+  Events --> Triage --> Discovery --> RCA --> Solution --> Proof`;
 ---
 
 <Layout title='Agentic Healing in Production'>
@@ -59,6 +78,9 @@ const healthCheckFlow = `flowchart LR
             <br />in Production <span class='text-primary'>🩺</span>
         </Heading>
         <SubText>Jack McNicol &bull; Founding Engineer @ SuperIT</SubText>
+        <SubHeading variant='muted'>
+            Small team building our Sparky agent, Fastapi/React
+        </SubHeading>
     </Slide>
 
     <!-- The dream — the hook. -->
@@ -66,10 +88,7 @@ const healthCheckFlow = `flowchart LR
         <div class='flex flex-col items-start gap-8 text-left'>
             <Star />
             <Heading>The <span class='text-primary'>dream</span></Heading>
-            <SubHeading>
-                AI swarms deploying agents and subagents to fix production
-                issues while you sleep…
-            </SubHeading>
+            <SubHeading>Autonomous fixing of issues at scale.</SubHeading>
         </div>
     </Slide>
 
@@ -79,17 +98,17 @@ const healthCheckFlow = `flowchart LR
             <Image
                 src={teeth}
                 alt=''
-                class='max-h-[80vh] w-full object-contain rounded-full'
+                class='mx-auto aspect-square max-h-[80vh] w-auto object-cover rounded-full'
             />
         </figure>
     </Slide>
 
-    <!-- Agenda — the spine flowchart. Health Check lit; reused as a divider per section. -->
+    <!-- Agenda — the spine flowchart. Health Check lit. -->
     <Slide>
         <Menu active={0} />
     </Slide>
 
-    {/* ───────────── 01 · HEALTH CHECK ───────────── */}
+    {/* ───────────── 01 · AGENTIC HEALTH CHECK ───────────── */}
     <Section id={MENU_ITEMS[0].slug}>
         <!-- Flow state. -->
         <Slide section={MENU_ITEMS[0].name}>
@@ -97,24 +116,10 @@ const healthCheckFlow = `flowchart LR
                 <Waves />
                 <Heading>Flow <span class='text-primary'>state</span></Heading>
                 <SubHeading>
-                    Change the repo so the agent will flow through the code
-                    well.
-                </SubHeading>
-            </div>
-        </Slide>
-
-        <!-- AGENTS.md. DRAFT — repo-prep headline tactic. -->
-        <Slide section={MENU_ITEMS[0].name} draft={true}>
-            <div class='flex flex-col items-start gap-8 text-left'>
-                <Compass />
-                <Heading>AGENTS<span class='text-primary'>.md</span></Heading>
-                <SubHeading>
-                    Tell the agent how the code is organised — and how to
-                    navigate it.
+                    Update the code so the agent will flow through the code well.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Rebuild it from scratch every few weeks, based on what the
-                    agent kept getting wrong.
+                    What is the new state of the world
                 </SubHeading>
             </div>
         </Slide>
@@ -124,15 +129,14 @@ const healthCheckFlow = `flowchart LR
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Replay />
                 <Heading
-                    >Read the <span class='text-primary'>sessions</span
-                    ></Heading
+                    >Read the <span class='text-primary'>sessions</span></Heading
                 >
                 <SubHeading>
                     Where did it go off track — then find its way back?
                 </SubHeading>
                 <SubHeading variant='muted'>
                     Show me recommendations to help the agent reach its goal
-                    faster.
+                    faster. No -&gt; Human review better
                 </SubHeading>
             </div>
         </Slide>
@@ -154,18 +158,16 @@ const healthCheckFlow = `flowchart LR
             </div>
         </Slide>
 
-        <!-- Merge queue. -->
+        <!-- Back pressure. -->
         <Slide section={MENU_ITEMS[0].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
-                <MergeQueue />
-                <Heading>Merge <span class='text-primary'>queue</span></Heading>
-                <SubHeading>
-                    Agents open many PRs. Test each against the exact tree it
-                    merges into.
-                </SubHeading>
+                <BackPressure />
+                <Heading><span class='text-primary'>Back</span> pressure</Heading
+                >
+                <SubHeading>Belt and suspenders</SubHeading>
                 <SubHeading variant='muted'>
-                    No more “passed CI, broke main” — and one chokepoint for the
-                    heavy checks.
+                    PostTool checks, type check, property, e2e, failure states,
+                    not coverage
                 </SubHeading>
             </div>
         </Slide>
@@ -179,15 +181,51 @@ const healthCheckFlow = `flowchart LR
         </Slide>
     </Section>
 
-    {/* ───────────── 02 · BUGS REPORTED ───────────── */}
+    {/* ───────────── 02 · AGENTS IN THE FIELD ───────────── */}
     <Section id={MENU_ITEMS[1].slug}>
-        <!-- Divider. -->
+        <!-- Section opener image. -->
         <Slide>
-            <Menu active={1} />
+            <figure class='w-full'>
+                <Image
+                    src={taskManually}
+                    alt=''
+                    class='max-h-[80vh] w-full rounded-xl object-contain'
+                />
+            </figure>
         </Slide>
 
-        <!-- Unassigned → AI triage. -->
+        <!-- Events, Recurring, Human → Agents. -->
         <Slide section={MENU_ITEMS[1].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Heading>Events, Recurring, Human → Agents</Heading>
+                <SubHeading>Managing change.</SubHeading>
+            </div>
+        </Slide>
+
+        <!-- The pipeline flow. -->
+        <Slide section={MENU_ITEMS[1].name}>
+            <div class='flex w-full flex-col items-start gap-8 text-left'>
+                <Mermaid code={pipelineFlow} />
+            </div>
+        </Slide>
+
+        <!-- Events. -->
+        <Slide section={MENU_ITEMS[1].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Fire />
+                <Heading>Events</Heading>
+                <SubHeading>
+                    Sentry, Logfire, Linear bug, Slack message
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Workflows to manage context, investigate, build rca, rca to
+                    solutions, rca to proof
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- Unassigned → triage. -->
+        <Slide section={MENU_ITEMS[1].name} draft={true}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Triage />
                 <Heading
@@ -198,14 +236,13 @@ const healthCheckFlow = `flowchart LR
                     severity.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    The win isn’t “AI triages”. It’s that the agent shows its
-                    work.
+                    The win isn’t “AI triages”. Shows its work.
                 </SubHeading>
             </div>
         </Slide>
 
         <!-- Discovery: Logfire. -->
-        <Slide section={MENU_ITEMS[1].name}>
+        <Slide section={MENU_ITEMS[1].name} draft={true}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Telemetry />
                 <Heading>Discovery</Heading>
@@ -220,71 +257,72 @@ const healthCheckFlow = `flowchart LR
             </div>
         </Slide>
 
+        <!-- Recurring. -->
+        <Slide section={MENU_ITEMS[1].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Clock />
+                <Heading>Recurring</Heading>
+                <SubHeading>
+                    Cron-style agents. Lowest urgency, widest blast radius.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Dependabot, Security scans, Pickup bug ticket. Recurring
+                    allows token cost planning.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- The developer. -->
+        <Slide section={MENU_ITEMS[1].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Person />
+                <Heading>The developer</Heading>
+                <SubHeading variant='muted'>
+                    Product growth done here, less bug fixing.
+                </SubHeading>
+            </div>
+        </Slide>
+
         <!-- Review with skills. -->
         <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Skills />
-                <Heading>Review with <span class='text-primary'>skills</span
-                    ></Heading
+                <Heading
+                    >Review with <span class='text-primary'>skills</span></Heading
                 >
                 <SubHeading>
                     A skill is a reusable procedure: input → checklist → output.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Cheap deterministic rules first. The LLM only when it’s
-                    ambiguous.
+                    Cheap deterministic rules first. ast-grep/custom.
                 </SubHeading>
             </div>
-        </Slide>
-    </Section>
-
-    {/* ───────────── 03 · IN THE FIELD ───────────── */}
-    <Section id={MENU_ITEMS[2].slug}>
-        <!-- Divider. -->
-        <Slide>
-            <Menu active={2} />
         </Slide>
 
         <!-- PR actions. -->
-        <Slide section={MENU_ITEMS[2].name}>
+        <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <PullRequest />
-                <Heading>The PR is the <span class='text-primary'>guardrail</span
+                <Heading
+                    >The PR is the <span class='text-primary'>guardrail</span
                     ></Heading
                 >
                 <SubHeading>
-                    Branch, review, CI — let agents run wild behind the human
-                    gate.
+                    Let agents run wild behind it. Human review? Merge Queues.
                 </SubHeading>
                 <SubHeading variant='muted'>
                     Greptile · Cursor BugBot · Claude Code Review. Stack
-                    reviewers, don’t replace them.
-                </SubHeading>
-            </div>
-        </Slide>
-
-        <!-- Recurring. -->
-        <Slide section={MENU_ITEMS[2].name}>
-            <div class='flex flex-col items-start gap-8 text-left'>
-                <Clock />
-                <Heading>Recurring</Heading>
-                <SubHeading>
-                    Cron-style agents. Lowest urgency, widest blast radius —
-                    they run unattended.
-                </SubHeading>
-                <SubHeading variant='muted'>
-                    Dependabot · scheduled scans · weekly “fix the worst Sentry
-                    issue”. Read-only first.
+                    reviewers, don’t replace them. tag human required
                 </SubHeading>
             </div>
         </Slide>
 
         <!-- Webhooks → RCA. -->
-        <Slide section={MENU_ITEMS[2].name}>
+        <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Bolt />
-                <Heading>Heal on <span class='text-primary'>trigger</span
-                    ></Heading
+                <Heading
+                    >Heal on <span class='text-primary'>trigger</span></Heading
                 >
                 <SubHeading>
                     Production event fires → agent investigates → posts findings
@@ -297,12 +335,12 @@ const healthCheckFlow = `flowchart LR
             </div>
         </Slide>
 
-        <!-- Project manager. -->
-        <Slide section={MENU_ITEMS[2].name}>
+        <!-- Close the loop. -->
+        <Slide section={MENU_ITEMS[1].name} draft={true}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Thread />
-                <Heading>Close the <span class='text-primary'>loop</span
-                    ></Heading
+                <Heading
+                    >Close the <span class='text-primary'>loop</span></Heading
                 >
                 <SubHeading>
                     Fix lands → the agent closes the Linear issue and threads
@@ -314,17 +352,11 @@ const healthCheckFlow = `flowchart LR
             </div>
         </Slide>
 
-        <!-- Hero demo. DRAFT — pre-recorded Sparky run. -->
-        <Slide section={MENU_ITEMS[2].name} draft={true}>
+        <!-- Hero demo flow. DRAFT. -->
+        <Slide section={MENU_ITEMS[1].name} draft={true}>
             <div class='flex w-full flex-col items-start gap-8 text-left'>
-                <Eyebrow>Hero demo · Sparky</Eyebrow>
-                <div
-                    class='flex aspect-video w-full items-center justify-center rounded-xl border border-dashed border-mute/40'
-                >
-                    <span class='text-sm uppercase tracking-[0.35em] text-mute'>
-                        Sparky hero demo — recording TODO
-                    </span>
-                </div>
+                <Eyebrow>How we use it</Eyebrow>
+                <Mermaid code={demoFlow} />
                 <SubText>
                     This run cost $0.34. A senior tech costs A$3.50/min on call.
                 </SubText>
@@ -332,31 +364,28 @@ const healthCheckFlow = `flowchart LR
         </Slide>
     </Section>
 
-    {/* ───────────── 04 · AGENTIC TEST ───────────── */}
-    <Section id={MENU_ITEMS[3].slug}>
-        <!-- Divider. -->
-        <Slide>
-            <Menu active={3} />
-        </Slide>
-
+    {/* ───────────── 03 · AGENTIC TEST ───────────── */}
+    <Section id={MENU_ITEMS[2].slug}>
         <!-- The Meijer move. -->
-        <Slide section={MENU_ITEMS[3].name}>
+        <Slide section={MENU_ITEMS[2].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Report />
-                <Heading>Make it <span class='text-primary'>prove</span> its work</Heading
+                <Heading
+                    >Make it <span class='text-primary'>prove</span> its work</Heading
                 >
                 <SubHeading>
-                    A rich report — video, images, metrics — you can skim in 30
-                    seconds.
+                    Validating the agent’s work is the bottleneck. Compress it.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Validating the agent’s work is the bottleneck. Compress it.
+                    “Have the agent prove its work in the format that’s <span
+                        class='text-primary'>fastest for you to validate</span
+                    >.”
                 </SubHeading>
             </div>
         </Slide>
 
         <!-- In practice. -->
-        <Slide section={MENU_ITEMS[3].name}>
+        <Slide section={MENU_ITEMS[2].name} draft={true}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Telemetry />
                 <Heading>In practice</Heading>
@@ -370,94 +399,58 @@ const healthCheckFlow = `flowchart LR
                 </SubHeading>
             </div>
         </Slide>
+    </Section>
 
-        <!-- The principle. -->
+    {/* ───────────── 04 · AGENT LEARNINGS / CLOSE ───────────── */}
+    <Section id={MENU_ITEMS[3].slug}>
+        <!-- The mythos wave. -->
+        <Slide section={MENU_ITEMS[3].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Siren />
+                <Heading>Are you ready for the mythos wave?</Heading>
+                <SubHeading>Time to exploit is now hours.</SubHeading>
+            </div>
+        </Slide>
+
+        <!-- The warning. -->
+        <Slide section={MENU_ITEMS[3].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Warning />
+                <Eyebrow>The trap</Eyebrow>
+                <Quote>
+                    Agents multiply what you already have — foundations or debt.
+                </Quote>
+                <SubHeading variant='muted'>
+                    Skip the foundation and you get the Cloudflare failure mode:
+                    automation confidently making things worse.
+                </SubHeading>
+            </div>
+        </Slide>
+
+        <!-- What's the point? -->
         <Slide section={MENU_ITEMS[3].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Target />
-                <Eyebrow>The principle</Eyebrow>
-                <Quote>
-                    “Have the agent prove its work in the format that’s <span
-                        class='text-primary'>fastest for you to validate</span
-                    >.”
-                </Quote>
+                <Heading
+                    >What’s the <span class='text-primary'>point</span>?</Heading
+                >
+                <SubHeading>
+                    Stop doing the work AI is now better at — so you can do the
+                    work it can’t.
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Allows us to move to the important parts. Where should we as
+                    engineers be focused?
+                </SubHeading>
             </div>
         </Slide>
+
+        <!-- Thanks. -->
+        <Slide>
+            <Heading as='h1' size='title'>
+                <span class='text-primary'>Thanks</span> 🩺
+            </Heading>
+            <SubText>@jackmcpickle</SubText>
+        </Slide>
     </Section>
-
-    {/* ───────────── CLOSE ───────────── */}
-
-    <!-- 12-Factor namecheck. -->
-    <Slide>
-        <div class='flex flex-col items-start gap-8 text-left'>
-            <Skills />
-            <Heading>We didn’t <span class='text-primary'>invent</span> this</Heading
-            >
-            <SubHeading>
-                Built on Horthy’s 12-Factor Agents — own your prompts, own your
-                context, humans as tool calls, the report as structured output.
-            </SubHeading>
-            <Quote>
-                “Most successful production agents are deterministic code with
-                <span class='text-primary'>strategically placed LLM steps</span
-                >.”
-                <Fragment slot='cite'>— Dex Horthy, 12-Factor Agents</Fragment>
-            </Quote>
-        </div>
-    </Slide>
-
-    <!-- What's the point? -->
-    <Slide>
-        <div class='flex flex-col items-start gap-8 text-left'>
-            <Target />
-            <Heading>What’s the <span class='text-primary'>point</span>?</Heading>
-            <SubHeading>
-                Stop doing the work AI is now better at — so you can do the work
-                it can’t.
-            </SubHeading>
-            <SubHeading variant='muted'>
-                From writing the fix to writing the guardrails. From reviewing
-                the diff to validating the report.
-            </SubHeading>
-        </div>
-    </Slide>
-
-    <!-- The warning. -->
-    <Slide>
-        <div class='flex flex-col items-start gap-8 text-left'>
-            <Warning />
-            <Eyebrow>The trap</Eyebrow>
-            <Quote>
-                Speed is <span class='text-primary'>neutral</span>. It
-                multiplies what you already have — foundations or debt.
-            </Quote>
-            <SubHeading variant='muted'>
-                Skip the foundation and you get the Cloudflare failure mode:
-                automation confidently making things worse.
-            </SubHeading>
-        </div>
-    </Slide>
-
-    <!-- Call to action. -->
-    <Slide>
-        <div class='flex flex-col items-start gap-8 text-left'>
-            <Star />
-            <Heading>Build the <span class='text-primary'>ladder</span></Heading>
-            <SubHeading>
-                Pick the dumbest ticket. Wire one agent to it. Read-only for two
-                weeks. Then promote it one rung.
-            </SubHeading>
-        </div>
-    </Slide>
-
-    <!-- Thanks. -->
-    <Slide>
-        <Heading as='h1' size='title'>
-            <span class='text-primary'>Thanks</span> 🩺
-        </Heading>
-        <SubText>
-            Jack McNicol &bull; SuperIT / Sparky &bull; AI Engineer Melbourne
-            2026
-        </SubText>
-    </Slide>
 </Layout>
