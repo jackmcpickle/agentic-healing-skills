@@ -8,6 +8,7 @@ import Heading from '../components/Heading.astro';
 import SubHeading from '../components/SubHeading.astro';
 import SubText from '../components/SubText.astro';
 import Quote from '../components/Quote.astro';
+import QRCode from '../components/QRCode.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Mermaid from '../components/Mermaid.astro';
 import Star from '../components/icons/Star.astro';
@@ -23,7 +24,6 @@ import Person from '../components/icons/Person.astro';
 import Skills from '../components/icons/Skills.astro';
 import PullRequest from '../components/icons/PullRequest.astro';
 import Bolt from '../components/icons/Bolt.astro';
-import Thread from '../components/icons/Thread.astro';
 import Report from '../components/icons/Report.astro';
 import Target from '../components/icons/Target.astro';
 import Siren from '../components/icons/Siren.astro';
@@ -59,8 +59,22 @@ const pipelineFlow = `flowchart LR
   P --> M[Merge queue]`;
 
 // The hero-demo flow shown in the In-the-Field demo slide.
-const demoFlow = `flowchart LR
+const demoEventFlow = `flowchart LR
   Events --> Triage --> Discovery --> RCA --> Solution --> Proof`;
+const demoReviewFlow = `flowchart LR
+    PR[Pull Request]
+    A1[Agent Review - 3rd party]
+    SR[Security Review]
+    TS[Test suite]
+    A2[Agent Review - 1st party]
+    PR --> A1
+    PR --> SR
+    PR --> TS
+    SR --> A2
+    A1 --> A2
+    TS --> A2
+    A2 --> M[Merge queue]
+`;
 ---
 
 <Layout title='Agentic Healing in Production'>
@@ -269,7 +283,7 @@ const demoFlow = `flowchart LR
                     Cron-actions. Lowest urgency, widest blast radius.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Dependabot, Security scans, Pickup bug ticket. Recurring
+                    Dependabot, Security scans, Pickup bug ticket. Schedules
                     allows token cost planning.
                 </SubHeading>
             </div>
@@ -290,14 +304,12 @@ const demoFlow = `flowchart LR
         <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Skills />
-                <Heading
-                    >Review with <span class='text-primary'>skills</span></Heading
-                >
+                <Heading>Review with <span class='text-primary'>skills</span></Heading>
                 <SubHeading>
                     A skill is a reusable procedure: input → checklist → output.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Cheap deterministic rules first. ast-grep/custom.
+                    Cheap deterministic rules first. ast-grep/custom. Once trusted, add to scheduler.
                 </SubHeading>
             </div>
         </Slide>
@@ -336,70 +348,53 @@ const demoFlow = `flowchart LR
             </div>
         </Slide>
 
-        <!-- Close the loop. -->
-        <Slide section={MENU_ITEMS[1].name} draft={true}>
-            <div class='flex flex-col items-start gap-8 text-left'>
-                <Thread />
-                <Heading>
-                    Close the <span class='text-primary'>loop</span></Heading
-                >
-                <SubHeading>
-                    Fix lands → the agent closes the Linear issue and threads
-                    back to Slack.
-                </SubHeading>
-                <SubHeading variant='muted'>
-                    Hygienic, not glamorous — it makes the next triage faster.
-                </SubHeading>
-            </div>
-        </Slide>
-
-        <!-- Hero demo flow. DRAFT. -->
-        <Slide section={MENU_ITEMS[1].name} draft={true}>
+        <!-- Hero demo flow. -->
+        <Slide section={MENU_ITEMS[1].name}>
             <div class='flex w-full flex-col items-start gap-8 text-left'>
                 <Eyebrow>How we use it</Eyebrow>
-                <Mermaid code={demoFlow} />
-                <SubText>
-                    This run cost $0.34. A senior tech costs A$3.50/min on call.
-                </SubText>
+                <Mermaid code={demoEventFlow} />
+                <Mermaid code={demoReviewFlow} />
             </div>
         </Slide>
     </Section>
 
+    <Slide>
+        <Menu active={2} />
+    </Slide>
+
     {/* ───────────── 03 · AGENTIC TEST ───────────── */}
     <Section id={MENU_ITEMS[2].slug}>
+        <Slide section={MENU_ITEMS[2].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <Telemetry />
+                <Heading>Its <span class='text-primary'>Fixed!</span> </Heading>
+                <SubHeading>
+                    Said Claude...
+                </SubHeading>
+                <SubHeading variant='muted'>
+                    Reality, to changed some stuff.
+                </SubHeading>
+            </div>
+        </Slide>
         <!-- The Meijer move. -->
         <Slide section={MENU_ITEMS[2].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Report />
-                <Heading
-                    >Make it <span class='text-primary'>prove</span> its work</Heading
-                >
+                <Heading>
+                    Make it <span class='text-primary'>prove</span> its work
+                </Heading>
                 <SubHeading>
                     Validating the agent’s work is the bottleneck. Compress it.
                 </SubHeading>
                 <SubHeading variant='muted'>
                     “Have the agent prove its work in the format that’s <span
                         class='text-primary'>fastest for you to validate</span
-                    >.”
+                    >.” - A love letter to Pi | Lucas Meijer
                 </SubHeading>
             </div>
         </Slide>
 
         <!-- In practice. -->
-        <Slide section={MENU_ITEMS[2].name} draft={true}>
-            <div class='flex flex-col items-start gap-8 text-left'>
-                <Telemetry />
-                <Heading>In practice</Heading>
-                <SubHeading>
-                    The bug reproducing on <span class='text-primary'>main</span
-                    >, and not reproducing on the branch.
-                </SubHeading>
-                <SubHeading variant='muted'>
-                    Before/after dashboards with the deploy marker. The weekly
-                    report as HTML, not a Slack message.
-                </SubHeading>
-            </div>
-        </Slide>
     </Section>
 
     {/* ───────────── 04 · AGENT LEARNINGS / CLOSE ───────────── */}
@@ -422,8 +417,7 @@ const demoFlow = `flowchart LR
                     Agents multiply what you already have — foundations or debt.
                 </Quote>
                 <SubHeading variant='muted'>
-                    Skip the foundation and you get the Cloudflare failure mode:
-                    automation confidently making things worse.
+                    Skip the foundation and you get the automation confidently making things worse.
                 </SubHeading>
             </div>
         </Slide>
@@ -448,10 +442,17 @@ const demoFlow = `flowchart LR
 
         <!-- Thanks. -->
         <Slide>
-            <Heading as='h1' size='title'>
-                <span class='text-primary'>Thanks</span> 🩺
-            </Heading>
-            <SubText>@jackmcpickle</SubText>
+            <div class="flex items-start gap-8">
+                <div class="flex-1">
+                    <SubHeading>
+                        <span class='text-3xl text-primary'>Thanks</span> 🩺
+                    </SubHeading>
+
+                    <SubText class='text-3xl'>@jackmcpickle</SubText>
+                </div>
+                <QRCode class="max-w-xl w-full" />
+
+            </div>
         </Slide>
     </Section>
 </Layout>
