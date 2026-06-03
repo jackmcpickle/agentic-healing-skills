@@ -38,7 +38,7 @@ resetSlideIds(); // restart slide-N numbering at the top of each page render
 const healthCheckFlow = `flowchart LR
   subgraph Schedule
     direction TB
-    A[code debt]
+    A[Code debt]
     B[Wiki debt]
     C[Architecture audit]
     D[Test coverage]
@@ -53,11 +53,9 @@ const pipelineFlow = `flowchart LR
   E[Event]
   R[Recurring]
   H[Human]
-  E --> P[Pipeline]
+  E --> P[Review Pipeline]
   R --> P
   H --> P
-  P --> V[Review]
-  V --> P
   P --> M[Merge queue]`;
 
 // The hero-demo flow shown in the In-the-Field demo slide.
@@ -88,7 +86,7 @@ const demoFlow = `flowchart LR
         <div class='flex flex-col items-start gap-8 text-left'>
             <Star />
             <Heading>The <span class='text-primary'>dream</span></Heading>
-            <SubHeading>Autonomous fixing of issues at scale.</SubHeading>
+            <SubHeading>Autonomously fixing issues at scale.</SubHeading>
         </div>
     </Slide>
 
@@ -141,6 +139,20 @@ const demoFlow = `flowchart LR
             </div>
         </Slide>
 
+        <!-- Back pressure. -->
+        <Slide section={MENU_ITEMS[0].name}>
+            <div class='flex flex-col items-start gap-8 text-left'>
+                <BackPressure />
+                <Heading><span class='text-primary'>Back</span> pressure</Heading
+                >
+                <SubHeading>Belt and suspenders</SubHeading>
+                <SubHeading variant='muted'>
+                    PostTool checks, type checks, property, e2e, failure states,
+                    not coverage
+                </SubHeading>
+            </div>
+        </Slide>
+
         <!-- Warnings = errors. -->
         <Slide section={MENU_ITEMS[0].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
@@ -158,19 +170,6 @@ const demoFlow = `flowchart LR
             </div>
         </Slide>
 
-        <!-- Back pressure. -->
-        <Slide section={MENU_ITEMS[0].name}>
-            <div class='flex flex-col items-start gap-8 text-left'>
-                <BackPressure />
-                <Heading><span class='text-primary'>Back</span> pressure</Heading
-                >
-                <SubHeading>Belt and suspenders</SubHeading>
-                <SubHeading variant='muted'>
-                    PostTool checks, type check, property, e2e, failure states,
-                    not coverage
-                </SubHeading>
-            </div>
-        </Slide>
 
         <!-- How we use it — scheduled health-check jobs. -->
         <Slide section={MENU_ITEMS[0].name}>
@@ -181,6 +180,9 @@ const demoFlow = `flowchart LR
         </Slide>
     </Section>
 
+    <Slide>
+        <Menu active={1} />
+    </Slide>
     {/* ───────────── 02 · AGENTS IN THE FIELD ───────────── */}
     <Section id={MENU_ITEMS[1].slug}>
         <!-- Section opener image. -->
@@ -189,15 +191,17 @@ const demoFlow = `flowchart LR
                 <Image
                     src={taskManually}
                     alt=''
-                    class='max-h-[80vh] w-full rounded-xl object-contain'
+                    class='max-h-[80vh] text-center w-full rounded-xl object-contain'
                 />
             </figure>
+            <SubHeading class="text-center"
+            variant='muted'>Backwards?</SubHeading>
         </Slide>
 
         <!-- Events, Recurring, Human → Agents. -->
         <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
-                <Heading>Events, Recurring, Human → Agents</Heading>
+                <Heading class="whitespace-pre">Events, Schedules, Humans → Agents</Heading>
                 <SubHeading>Managing change.</SubHeading>
             </div>
         </Slide>
@@ -242,17 +246,16 @@ const demoFlow = `flowchart LR
         </Slide>
 
         <!-- Discovery: Logfire. -->
-        <Slide section={MENU_ITEMS[1].name} draft={true}>
+        <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Telemetry />
-                <Heading>Discovery</Heading>
+                <Heading>Event <span class='text-primary'>workflow</span></Heading>
                 <SubHeading>
                     The agent’s hypothesis is only as good as the telemetry it
-                    can read.
+                    can has.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Logfire → LLM-readable traces. Pull the last N matching the
-                    complaint, hypothesise a cause.
+                    Triage → Discovery → RCA → Solution
                 </SubHeading>
             </div>
         </Slide>
@@ -263,7 +266,7 @@ const demoFlow = `flowchart LR
                 <Clock />
                 <Heading>Recurring</Heading>
                 <SubHeading>
-                    Cron-style agents. Lowest urgency, widest blast radius.
+                    Cron-actions. Lowest urgency, widest blast radius.
                 </SubHeading>
                 <SubHeading variant='muted'>
                     Dependabot, Security scans, Pickup bug ticket. Recurring
@@ -303,10 +306,9 @@ const demoFlow = `flowchart LR
         <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <PullRequest />
-                <Heading
-                    >The PR is the <span class='text-primary'>guardrail</span
-                    ></Heading
-                >
+                <Heading>
+                    The PR is the <span class='text-primary'>guardrail</span>
+                </Heading>
                 <SubHeading>
                     Let agents run wild behind it. Human review? Merge Queues.
                 </SubHeading>
@@ -321,9 +323,8 @@ const demoFlow = `flowchart LR
         <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Bolt />
-                <Heading
-                    >Heal on <span class='text-primary'>trigger</span></Heading
-                >
+                <Heading>
+                    Heal on <span class='text-primary'>trigger</span></Heading>
                 <SubHeading>
                     Production event fires → agent investigates → posts findings
                     in 1–2 minutes.
@@ -339,8 +340,8 @@ const demoFlow = `flowchart LR
         <Slide section={MENU_ITEMS[1].name} draft={true}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Thread />
-                <Heading
-                    >Close the <span class='text-primary'>loop</span></Heading
+                <Heading>
+                    Close the <span class='text-primary'>loop</span></Heading
                 >
                 <SubHeading>
                     Fix lands → the agent closes the Linear issue and threads
