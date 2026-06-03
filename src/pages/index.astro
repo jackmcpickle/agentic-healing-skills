@@ -66,7 +66,7 @@ const demoReviewFlow = `flowchart LR
     A1[Agent Review - 3rd party]
     SR[Security Review]
     TS[Test suite]
-    A2[Agent Review - 1st party]
+    A2[Merge Agent - 1st party]
     PR --> A1
     PR --> SR
     PR --> TS
@@ -91,7 +91,7 @@ const demoReviewFlow = `flowchart LR
         </Heading>
         <SubText>Jack McNicol &bull; Founding Engineer @ SuperIT</SubText>
         <SubHeading variant='muted'>
-            Small team building our Sparky agent, Fastapi/React
+            Small team building our Sparky agent, FastAPI/React
         </SubHeading>
     </Slide>
 
@@ -131,7 +131,7 @@ const demoReviewFlow = `flowchart LR
                     Update the code so the agent will flow through the code well.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    What is the new state of the world
+                    What is the new state of the world?
                 </SubHeading>
             </div>
         </Slide>
@@ -236,25 +236,8 @@ const demoReviewFlow = `flowchart LR
                     Sentry, Logfire, Linear bug, Slack message
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Workflows to manage context, investigate, build rca, rca to
-                    solutions, rca to proof
-                </SubHeading>
-            </div>
-        </Slide>
-
-        <!-- Unassigned → triage. -->
-        <Slide section={MENU_ITEMS[1].name} draft={true}>
-            <div class='flex flex-col items-start gap-8 text-left'>
-                <Triage />
-                <Heading
-                    >Unassigned <span class='text-primary'>→</span> triage</Heading
-                >
-                <SubHeading>
-                    An agent does the first pass — assignee, team, labels,
-                    severity.
-                </SubHeading>
-                <SubHeading variant='muted'>
-                    The win isn’t “AI triages”. Shows its work.
+                    Workflows to manage context, investigate, build RCA, RCA to
+                    solutions, RCA to proof
                 </SubHeading>
             </div>
         </Slide>
@@ -266,10 +249,10 @@ const demoReviewFlow = `flowchart LR
                 <Heading>Event <span class='text-primary'>workflow</span></Heading>
                 <SubHeading>
                     The agent’s hypothesis is only as good as the telemetry it
-                    can has.
+                    has.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Triage → Discovery → RCA → Solution
+                    Triage → Discovery → RCA → Solution → Proof
                 </SubHeading>
             </div>
         </Slide>
@@ -283,8 +266,8 @@ const demoReviewFlow = `flowchart LR
                     Cron-actions. Lowest urgency, widest blast radius.
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Dependabot, Security scans, Pickup bug ticket. Schedules
-                    allows token cost planning.
+                    Dependabot, Security scans, Pick up bug ticket. Schedules
+                    allow token cost planning.
                 </SubHeading>
             </div>
         </Slide>
@@ -326,7 +309,7 @@ const demoReviewFlow = `flowchart LR
                 </SubHeading>
                 <SubHeading variant='muted'>
                     Greptile · Cursor BugBot · Claude Code Review. Stack
-                    reviewers, don’t replace them. tag human required
+                    reviewers, don’t replace them. Tag a human required
                 </SubHeading>
             </div>
         </Slide>
@@ -367,12 +350,12 @@ const demoReviewFlow = `flowchart LR
         <Slide section={MENU_ITEMS[2].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
                 <Telemetry />
-                <Heading>Its <span class='text-primary'>Fixed!</span> </Heading>
+                <Heading>It's <span class='text-primary'>Fixed!</span> </Heading>
                 <SubHeading>
                     Said Claude...
                 </SubHeading>
                 <SubHeading variant='muted'>
-                    Reality, to changed some stuff.
+                    Reality: it changed some stuff.
                 </SubHeading>
             </div>
         </Slide>
