@@ -82,17 +82,19 @@ const demoReviewFlow = `flowchart LR
 
     <!-- Title card. -->
     <Slide>
-        <Heading
-            as='h1'
-            size='title'
-        >
-            Agentic <span class='text-primary'>Healing</span>
-            <br />in Production <span class='text-primary'>🩺</span>
-        </Heading>
-        <SubText>Jack McNicol &bull; Founding Engineer @ SuperIT</SubText>
-        <SubHeading variant='muted'>
-            Small team building our Sparky agent, FastAPI/React
-        </SubHeading>
+        <div class='flex flex-col items-start gap-8 text-left'>
+            <Heading
+                as='h1'
+                size='title'
+            >
+                Agentic <span class='text-primary'>Healing</span>
+                <br />in Production <span class='text-primary'>🩺</span>
+            </Heading>
+            <SubText>Jack McNicol &bull; Founding Engineer @ SuperIT</SubText>
+            <SubHeading variant='muted'>
+                Small team building our Sparky agent, FastAPI/React
+            </SubHeading>
+        </div>
     </Slide>
 
     <!-- The dream — the hook. -->
@@ -205,7 +207,7 @@ const demoReviewFlow = `flowchart LR
                 <Image
                     src={taskManually}
                     alt=''
-                    class='max-h-[80vh] text-center w-full rounded-xl object-contain'
+                    class='max-h-[80vh] w-full rounded-xl object-contain'
                 />
             </figure>
             <SubHeading class="text-center"
@@ -215,7 +217,7 @@ const demoReviewFlow = `flowchart LR
         <!-- Events, Recurring, Human → Agents. -->
         <Slide section={MENU_ITEMS[1].name}>
             <div class='flex flex-col items-start gap-8 text-left'>
-                <Heading class="whitespace-pre">Events, Schedules, Humans → Agents</Heading>
+                <Heading>Events, Schedules, Humans → Agents</Heading>
                 <SubHeading>Managing change.</SubHeading>
             </div>
         </Slide>
